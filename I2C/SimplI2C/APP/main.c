@@ -90,12 +90,12 @@ void I2CMstInit(void)
 {
 	I2C_InitStructure I2C_initStruct;
 	
-	PORT_Init(PORTA, PIN4, FUNMUX_I2C0_SCL, 1);		//GPIOA.4ÅäÖÃÎªI2C0 SCLÒý½Å
-	PORTA->OPEND |= (1 << PIN4);					//¿ªÂ©
-	PORTA->PULLU |= (1 << PIN4);					//ÉÏÀ­
-	PORT_Init(PORTA, PIN5, FUNMUX_I2C0_SDA, 1);		//GPIOA.5ÅäÖÃÎªI2C0 SDAÒý½Å
-	PORTA->OPEND |= (1 << PIN5);					//¿ªÂ©
-	PORTA->PULLU |= (1 << PIN5);					//ÉÏÀ­
+	PORT_Init(PORTA, PIN4, FUNMUX_I2C0_SCL, 1);		//GPIOA.4é…ç½®ä¸ºI2C0 SCLå¼•è„š
+	PORTA->OPEND |= (1 << PIN4);					//å¼€æ¼
+	PORTA->PULLU |= (1 << PIN4);					//ä¸Šæ‹‰
+	PORT_Init(PORTA, PIN5, FUNMUX_I2C0_SDA, 1);		//GPIOA.5é…ç½®ä¸ºI2C0 SDAå¼•è„š
+	PORTA->OPEND |= (1 << PIN5);					//å¼€æ¼
+	PORTA->PULLU |= (1 << PIN5);					//ä¸Šæ‹‰
 	
 	I2C_initStruct.Master = 1;
 	I2C_initStruct.Addr7b = 1;
@@ -110,12 +110,12 @@ void I2CSlvInit(void)
 {
 	I2C_InitStructure I2C_initStruct;
 	
-	PORT_Init(PORTA, PIN6, FUNMUX_I2C1_SCL, 1);		//GPIOA.6ÅäÖÃÎªI2C1 SCLÒý½Å
-	PORTA->OPEND |= (1 << PIN6);					//¿ªÂ©
-	PORTA->PULLU |= (1 << PIN6);					//ÉÏÀ­
-	PORT_Init(PORTA, PIN7, FUNMUX_I2C1_SDA, 1);		//GPIOA.7ÅäÖÃÎªI2C1 SDAÒý½Å
-	PORTA->OPEND |= (1 << PIN7);					//¿ªÂ©
-	PORTA->PULLU |= (1 << PIN7);					//ÉÏÀ­
+	PORT_Init(PORTA, PIN6, FUNMUX_I2C1_SCL, 1);		//GPIOA.6é…ç½®ä¸ºI2C1 SCLå¼•è„š
+	PORTA->OPEND |= (1 << PIN6);					//å¼€æ¼
+	PORTA->PULLU |= (1 << PIN6);					//ä¸Šæ‹‰
+	PORT_Init(PORTA, PIN7, FUNMUX_I2C1_SDA, 1);		//GPIOA.7é…ç½®ä¸ºI2C1 SDAå¼•è„š
+	PORTA->OPEND |= (1 << PIN7);					//å¼€æ¼
+	PORTA->PULLU |= (1 << PIN7);					//ä¸Šæ‹‰
 	
 	I2C_initStruct.Master = 0;
 	I2C_initStruct.Addr7b = 1;
@@ -137,38 +137,38 @@ void I2CSlvInit(void)
 
 void IRQ4_Handler(void)
 {
-	if(I2C1->SLVIF & I2C_SLVIF_STADET_Msk)				//ÊÕµ½ÆðÊ¼Î»
+	if(I2C1->SLVIF & I2C_SLVIF_STADET_Msk)				//æ”¶åˆ°èµ·å§‹ä½
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_STADET_Pos);
 		
 		I2C1->SLVTX = slv_txbuff[0];
 		slv_txindx = 1;
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_STODET_Msk)			//ÊÕµ½Í£Ö¹Î»
+	else if(I2C1->SLVIF & I2C_SLVIF_STODET_Msk)			//æ”¶åˆ°åœæ­¢ä½
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_STODET_Pos);
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_WRREQ_Msk)			//ÊÕµ½Ð´ÇëÇó
+	else if(I2C1->SLVIF & I2C_SLVIF_WRREQ_Msk)			//æ”¶åˆ°å†™è¯·æ±‚
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_WRREQ_Pos);
 		
 		slv_rxindx = 0;
 		I2C1->SLVCR |= (1 << I2C_SLVCR_ACK_Pos);
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_RXEND_Msk)			//½ÓÊÕÍê³É
+	else if(I2C1->SLVIF & I2C_SLVIF_RXEND_Msk)			//æŽ¥æ”¶å®Œæˆ
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_RXEND_Pos);
 		
 		slv_rxbuff[slv_rxindx] = I2C1->SLVRX;
 		if(slv_rxindx < 3) slv_rxindx++;
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_RDREQ_Msk)			//ÊÕµ½¶ÁÇëÇó
+	else if(I2C1->SLVIF & I2C_SLVIF_RDREQ_Msk)			//æ”¶åˆ°è¯»è¯·æ±‚
 	{		
 		I2C1->SLVIF = (1 << I2C_SLVIF_RDREQ_Pos);
 		
-		//ÊÕµ½¶ÁÇëÇóºó»áÁ¢¼´°ÑSLVTXÖÐµÄÖµ·¢ËÍ³öÈ¥£¬¶ø²»ÊÇµÈ´ýÈí¼þÐ´ÈëºóÔÙ·¢ËÍ£»ËùÒÔ½«µÚÒ»¸öÊý¾ÝÐ´ÈëSLVTXÖ»ÄÜÌáÇ°µ½¡°ÊÕµ½ÆðÊ¼Î»¡±
+		//æ”¶åˆ°è¯»è¯·æ±‚åŽä¼šç«‹å³æŠŠSLVTXä¸­çš„å€¼å‘é€å‡ºåŽ»ï¼Œè€Œä¸æ˜¯ç­‰å¾…è½¯ä»¶å†™å…¥åŽå†å‘é€ï¼›æ‰€ä»¥å°†ç¬¬ä¸€ä¸ªæ•°æ®å†™å…¥SLVTXåªèƒ½æå‰åˆ°â€œæ”¶åˆ°èµ·å§‹ä½â€
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_TXEND_Msk)			//·¢ËÍÍê³É
+	else if(I2C1->SLVIF & I2C_SLVIF_TXEND_Msk)			//å‘é€å®Œæˆ
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_TXEND_Pos);
 		
@@ -182,8 +182,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒý½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒý½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -198,12 +198,12 @@ void SerialInit(void)
 
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊýÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼þ¾ä±ú
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜Ž: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®žé™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

@@ -1,10 +1,10 @@
 /****************************************************************************************************************************************** 
-* ÎÄ¼þÃû³Æ:	system_SWM181.c
-* ¹¦ÄÜËµÃ÷:	SWM181µ¥Æ¬»úµÄÊ±ÖÓÉèÖÃ
-* ¼¼ÊõÖ§³Ö:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
-* ×¢ÒâÊÂÏî:
-* °æ±¾ÈÕÆÚ: V1.0.0		2016Äê1ÔÂ30ÈÕ
-* Éý¼¶¼ÇÂ¼: 
+* æ–‡ä»¶åç§°:	system_SWM181.c
+* åŠŸèƒ½è¯´æ˜Ž:	SWM181å•ç‰‡æœºçš„æ—¶é’Ÿè®¾ç½®
+* æŠ€æœ¯æ”¯æŒ:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
+* æ³¨æ„äº‹é¡¹:
+* ç‰ˆæœ¬æ—¥æœŸ: V1.0.0		2016å¹´1æœˆ30æ—¥
+* å‡çº§è®°å½•: 
 *
 *
 *******************************************************************************************************************************************
@@ -23,21 +23,21 @@
 
 
 /******************************************************************************************************************************************
- * ÏµÍ³Ê±ÖÓÉè¶¨
+ * ç³»ç»Ÿæ—¶é’Ÿè®¾å®š
  *****************************************************************************************************************************************/
-#define SYS_CLK_24MHz	0	 	//0 ÄÚ²¿¸ßÆµ24MHz RCÕñµ´Æ÷
-#define SYS_CLK_6MHz	1		//1 ÄÚ²¿¸ßÆµ 6MHz RCÕñµ´Æ÷									
-#define SYS_CLK_48MHz	2		//2 ÄÚ²¿¸ßÆµ48MHz RCÕñµ´Æ÷									
-#define SYS_CLK_12MHz	3		//3 ÄÚ²¿¸ßÆµ12MHz RCÕñµ´Æ÷									
-#define SYS_CLK_32KHz	4		//4 ÄÚ²¿µÍÆµ32KHz RCÕñµ´Æ÷									
-#define SYS_CLK_XTAL	5		//5 Íâ²¿XTAL¾§ÌåÕñµ´Æ÷£¨2-30MHz£©
+#define SYS_CLK_24MHz	0	 	//0 å†…éƒ¨é«˜é¢‘24MHz RCæŒ¯è¡å™¨
+#define SYS_CLK_6MHz	1		//1 å†…éƒ¨é«˜é¢‘ 6MHz RCæŒ¯è¡å™¨									
+#define SYS_CLK_48MHz	2		//2 å†…éƒ¨é«˜é¢‘48MHz RCæŒ¯è¡å™¨									
+#define SYS_CLK_12MHz	3		//3 å†…éƒ¨é«˜é¢‘12MHz RCæŒ¯è¡å™¨									
+#define SYS_CLK_32KHz	4		//4 å†…éƒ¨ä½Žé¢‘32KHz RCæŒ¯è¡å™¨									
+#define SYS_CLK_XTAL	5		//5 å¤–éƒ¨XTALæ™¶ä½“æŒ¯è¡å™¨ï¼ˆ2-30MHzï¼‰
 
 #define SYS_CLK   	SYS_CLK_48MHz
 
 
-#define __HSI		(24000000UL)		//¸ßËÙÄÚ²¿Ê±ÖÓ
-#define __LSI		(   32000UL)		//µÍËÙÄÚ²¿Ê±ÖÓ
-#define __HSE		(24000000UL)		//¸ßËÙÍâ²¿Ê±ÖÓ
+#define __HSI		(24000000UL)		//é«˜é€Ÿå†…éƒ¨æ—¶é’Ÿ
+#define __LSI		(   32000UL)		//ä½Žé€Ÿå†…éƒ¨æ—¶é’Ÿ
+#define __HSE		(24000000UL)		//é«˜é€Ÿå¤–éƒ¨æ—¶é’Ÿ
 
 
 
@@ -46,11 +46,11 @@ uint32_t CyclesPerUs      = (__HSI / 1000000); 		//Cycles per micro second
 
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: 
-* ¹¦ÄÜËµÃ÷: This function is used to update the variable SystemCoreClock and must be called whenever the core clock is changed
-* Êä    Èë: 
-* Êä    ³ö: 
-* ×¢ÒâÊÂÏî: 
+* å‡½æ•°åç§°: 
+* åŠŸèƒ½è¯´æ˜Ž: This function is used to update the variable SystemCoreClock and must be called whenever the core clock is changed
+* è¾“    å…¥: 
+* è¾“    å‡º: 
+* æ³¨æ„äº‹é¡¹: 
 ******************************************************************************************************************************************/
 void SystemCoreClockUpdate(void)    
 {
@@ -101,11 +101,11 @@ static void switchToRC12MHz(void);
 static void switchToRC32KHz(void);
 static void switchToXTAL(void);
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: 
-* ¹¦ÄÜËµÃ÷: The necessary initializaiton of systerm
-* Êä    Èë: 
-* Êä    ³ö: 
-* ×¢ÒâÊÂÏî: 
+* å‡½æ•°åç§°: 
+* åŠŸèƒ½è¯´æ˜Ž: The necessary initializaiton of systerm
+* è¾“    å…¥: 
+* è¾“    å‡º: 
+* æ³¨æ„äº‹é¡¹: 
 ******************************************************************************************************************************************/
 void SystemInit(void)
 {
@@ -115,39 +115,39 @@ void SystemInit(void)
 	
 	switch(SYS_CLK)
 	{
-		case SYS_CLK_24MHz:			//0 ÄÚ²¿¸ßÆµ24MHz RCÕñµ´Æ÷
-			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//µ±Ç°Ê±ÖÓÊÇ¸ßÆµRC£¬ÐÞ¸Ä¸ßÆµRCÊ±ÖÓÆµÂÊÊ±ÐèÒªÏÈÇÐµ½Ò»¸öÎÈ¶¨Ê±ÖÓÔ´
+		case SYS_CLK_24MHz:			//0 å†…éƒ¨é«˜é¢‘24MHz RCæŒ¯è¡å™¨
+			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//å½“å‰æ—¶é’Ÿæ˜¯é«˜é¢‘RCï¼Œä¿®æ”¹é«˜é¢‘RCæ—¶é’Ÿé¢‘çŽ‡æ—¶éœ€è¦å…ˆåˆ‡åˆ°ä¸€ä¸ªç¨³å®šæ—¶é’Ÿæº
 			{
 				switchToRC32KHz();
 			}
 			switchToRC24MHz();
 			break;
 		
-		case SYS_CLK_6MHz:			//1 ÄÚ²¿¸ßÆµ 6MHz RCÕñµ´Æ÷
-			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//µ±Ç°Ê±ÖÓÊÇ¸ßÆµRC£¬ÐÞ¸Ä¸ßÆµRCÊ±ÖÓÆµÂÊÊ±ÐèÒªÏÈÇÐµ½Ò»¸öÎÈ¶¨Ê±ÖÓÔ´
+		case SYS_CLK_6MHz:			//1 å†…éƒ¨é«˜é¢‘ 6MHz RCæŒ¯è¡å™¨
+			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//å½“å‰æ—¶é’Ÿæ˜¯é«˜é¢‘RCï¼Œä¿®æ”¹é«˜é¢‘RCæ—¶é’Ÿé¢‘çŽ‡æ—¶éœ€è¦å…ˆåˆ‡åˆ°ä¸€ä¸ªç¨³å®šæ—¶é’Ÿæº
 			{
 				switchToRC32KHz();
 			}
 			switchToRC6MHz();
 			break;
 		
-		case SYS_CLK_48MHz:			//2 ÄÚ²¿¸ßÆµ48MHz RCÕñµ´Æ÷
-			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//µ±Ç°Ê±ÖÓÊÇ¸ßÆµRC£¬ÐÞ¸Ä¸ßÆµRCÊ±ÖÓÆµÂÊÊ±ÐèÒªÏÈÇÐµ½Ò»¸öÎÈ¶¨Ê±ÖÓÔ´
+		case SYS_CLK_48MHz:			//2 å†…éƒ¨é«˜é¢‘48MHz RCæŒ¯è¡å™¨
+			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//å½“å‰æ—¶é’Ÿæ˜¯é«˜é¢‘RCï¼Œä¿®æ”¹é«˜é¢‘RCæ—¶é’Ÿé¢‘çŽ‡æ—¶éœ€è¦å…ˆåˆ‡åˆ°ä¸€ä¸ªç¨³å®šæ—¶é’Ÿæº
 			{
 				switchToRC32KHz();
 			}
 			switchToRC48MHz();
 			break;
 		
-		case SYS_CLK_12MHz:			//3 ÄÚ²¿¸ßÆµ12MHz RCÕñµ´Æ÷
-			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//µ±Ç°Ê±ÖÓÊÇ¸ßÆµRC£¬ÐÞ¸Ä¸ßÆµRCÊ±ÖÓÆµÂÊÊ±ÐèÒªÏÈÇÐµ½Ò»¸öÎÈ¶¨Ê±ÖÓÔ´
+		case SYS_CLK_12MHz:			//3 å†…éƒ¨é«˜é¢‘12MHz RCæŒ¯è¡å™¨
+			if(SYS->CLKSEL & SYS_CLKSEL_SYS_Msk)	//å½“å‰æ—¶é’Ÿæ˜¯é«˜é¢‘RCï¼Œä¿®æ”¹é«˜é¢‘RCæ—¶é’Ÿé¢‘çŽ‡æ—¶éœ€è¦å…ˆåˆ‡åˆ°ä¸€ä¸ªç¨³å®šæ—¶é’Ÿæº
 			{
 				switchToRC32KHz();
 			}
 			switchToRC12MHz();
 			break;
 		
-		case SYS_CLK_32KHz:			//4 ÄÚ²¿µÍÆµ32KHz RCÕñµ´Æ÷
+		case SYS_CLK_32KHz:			//4 å†…éƒ¨ä½Žé¢‘32KHz RCæŒ¯è¡å™¨
 			if((SYS->CLKSEL & SYS_CLKSEL_SYS_Msk) == 0)
 			{
 				switchToRC24MHz();
@@ -155,7 +155,7 @@ void SystemInit(void)
 			switchToRC32KHz();
 			break;
 		
-		case SYS_CLK_XTAL:			//5 Íâ²¿XTAL¾§ÌåÕñµ´Æ÷£¨2-30MHz£©
+		case SYS_CLK_XTAL:			//5 å¤–éƒ¨XTALæ™¶ä½“æŒ¯è¡å™¨ï¼ˆ2-30MHzï¼‰
 			if((SYS->CLKSEL & SYS_CLKSEL_SYS_Msk) == 0)
 			{
 				switchToRC24MHz();
@@ -164,7 +164,7 @@ void SystemInit(void)
 			break;
 	}
 	
-	for(i = 0;i <10000;i++);		//µÈ´ýÊ±ÖÓÎÈ¶¨¡£¡£¡£
+	for(i = 0;i <10000;i++);		//ç­‰å¾…æ—¶é’Ÿç¨³å®šã€‚ã€‚ã€‚
 	
 	SystemCoreClockUpdate();
 }

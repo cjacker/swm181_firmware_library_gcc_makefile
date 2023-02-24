@@ -1,12 +1,12 @@
 /****************************************************************************************************************************************** 
-* �ļ�����:	SPIUART.c
-* ����˵��:	SPIģ��UART����˫����֧����żУ��
-* ����֧��:	
-* ע������: 180��SPIʹ�û�����λ�Ĵ���ʵ�֣���SI��һλΪ0����SO�������һλʱ��ʱ�Ӳ�����֮��ܿ�SO��ƽ����0
-*			�����������˫��ͨ�ţ�����ʱSI���ſ϶��Ǹߣ������⣻����ʱ��SO�����г�GPIO����ߵ�ƽ��SO�ϵĵͲ��������������
-* �汾����:
-* ������¼: 2017/11/21 �Է���������ʱ��ⲻ���ǵ�һ�ֽڵ���ʼλ�½���
-*					   ���������SPI ֻ����10λ�����ٽ��պͼ���11λ��ֹͣλ��
+* 文件名称:	SPIUART.c
+* 功能说明:	SPI模拟UART，半双工，支持奇偶校验
+* 技术支持:	
+* 注意事项: 180的SPI使用环形移位寄存器实现，若SI第一位为0，则SO发送最后一位时，时钟采样沿之后很快SO电平会变成0
+*			解决方法：半双工通信，发送时SI引脚肯定是高，无问题；接收时将SO引脚切成GPIO输出高电平，SO上的低不会输出到引脚上
+* 版本日期:
+* 升级记录: 2017/11/21 对方连续发送时检测不到非第一字节的起始位下降沿
+*					   解决方法：SPI 只接收10位，不再接收和检测第11位（停止位）
 *
 ******************************************************************************************************************************************/
 #include "SWM181.h"
@@ -33,35 +33,35 @@ static uint16_t SPI_RX_Index;
 
 
 /****************************************************************************************************************************************** 
-* ��������:	SPIUART_Init()
-* ����˵��:	SPIģ��UART��ʼ��
-* ��    ��: uint16_t baudrate		���ڲ�����
-* ��    ��: ��
-* ע������: ��
+* 函数名称:	SPIUART_Init()
+* 功能说明:	SPI模拟UART初始化
+* 输    入: uint16_t baudrate		串口波特率
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void SPIUART_Init(uint16_t baudrate)
 {
 	SPI_InitStructure SPI_initStruct;
 	PWM_InitStructure PWM_initStruct;
 	
-	GPIO_Init(GPIOA, PIN7, 1, 0, 0, 0);				//ģ��SPI������nCS���ţ���Ҫ��SPI�ӻ���nCS����
+	GPIO_Init(GPIOA, PIN7, 1, 0, 0, 0);				//模拟SPI主机的nCS引脚，需要接SPI从机的nCS引脚
 	GPIO_SetBit(GPIOA, PIN7);
 	
 	PORT_Init(PORTA, PIN8,  PORTA_PIN8_SPI0_SSEL,  1);
 	
 	PORT_Init(PORTA, PIN9,  PORTA_PIN9_SPI0_MISO,  0);
-	GPIO_Init(GPIOA, PIN9,  1, 0, 0, 0);			//�������г�GPIOʱ����Ϊ��������ֵΪ�ߵ�ƽ
+	GPIO_Init(GPIOA, PIN9,  1, 0, 0, 0);			//当引脚切成GPIO时方向为输出、输出值为高电平
 	GPIO_SetBit(GPIOA, PIN9);
 #define PA9_AsGPIO()  PORTG->PORTA_SEL2 &= ~(0x03 << ((PIN9-8)*2));
 #define PA9_AsMISO()  PORTG->PORTA_SEL2 |= PORTA_PIN9_SPI0_MISO << ((PIN9-8)*2);
 	
 	PORT_Init(PORTA, PIN10, PORTA_PIN10_SPI0_MOSI, 1);
-	GPIO_Init(GPIOA, PIN10, 0, 1, 0, 0);			//�������г�GPIOʱ����Ϊ���롢ʹ�������������жϼ����ʼλ���½���
+	GPIO_Init(GPIOA, PIN10, 0, 1, 0, 0);			//当引脚切成GPIO时方向为输入、使能上拉，用于中断检测起始位的下降沿
 #define PA10_AsGPIO() PORTG->PORTA_SEL2 &= ~(0x03 << ((PIN10-8)*2));
 #define PA10_AsMOSI() PORTG->PORTA_SEL2 |= PORTA_PIN10_SPI0_MOSI << ((PIN10-8)*2);
 	
-	EXTI_Init(GPIOA, PIN10, EXTI_FALL_EDGE);			//�½��ش����ж�
-	IRQ_Connect(IRQ0_15_GPIOA10, IRQ9_IRQ, 1);			//�����ȼ�
+	EXTI_Init(GPIOA, PIN10, EXTI_FALL_EDGE);			//下降沿触发中断
+	IRQ_Connect(IRQ0_15_GPIOA10, IRQ9_IRQ, 1);			//高优先级
 	
 	PORT_Init(PORTA, PIN11, PORTA_PIN11_SPI0_SCLK, 1);
 	
@@ -81,7 +81,7 @@ void SPIUART_Init(uint16_t baudrate)
 	SPI_Open(SPI0);
 	
 	
-	PWM_initStruct.mode = PWM_MODE_INDEP;			//A·��B·�������
+	PWM_initStruct.mode = PWM_MODE_INDEP;			//A路和B路独立输出
 	PWM_initStruct.clk_div = PWM_CLKDIV_1;
 	PWM_initStruct.cycleA = SystemCoreClock/baudrate;		
 	PWM_initStruct.hdutyA = SystemCoreClock/baudrate/2;
@@ -91,7 +91,7 @@ void SPIUART_Init(uint16_t baudrate)
 	PWM_initStruct.HEndBIEn = 0;
 	PWM_initStruct.NCycleBIEn = 0;
 	
-	PORT_Init(PORTA, PIN4, FUNMUX_PWM1A_OUT, 0);	//ģ��SPI������CLK���ţ�������SPI�ӻ���CLK����
+	PORT_Init(PORTA, PIN4, FUNMUX_PWM1A_OUT, 0);	//模拟SPI主机的CLK引脚，需连接SPI从机的CLK引脚
 	
 	PWM_Init(PWM1, &PWM_initStruct);
 
@@ -103,12 +103,12 @@ void SPIUART_Init(uint16_t baudrate)
 
 static void _SPIUART_Send(uint16_t cnt);
 /****************************************************************************************************************************************** 
-* ��������:	SPIUART_Send()
-* ����˵��:	SPIģ��UART���ݷ���
-* ��    ��: uint8_t buff[]		Ҫ���͵����ݣ�8λ
-*			uint16_t cnt		Ҫ�������ݵĸ���
-* ��    ��: ��
-* ע������: ��
+* 函数名称:	SPIUART_Send()
+* 功能说明:	SPI模拟UART数据发送
+* 输    入: uint8_t buff[]		要发送的数据，8位
+*			uint16_t cnt		要发送数据的个数
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void SPIUART_Send(uint8_t buff[], uint16_t cnt)
 {
@@ -123,7 +123,7 @@ void SPIUART_Send(uint8_t buff[], uint16_t cnt)
 	SPI0->CTRL &= ~SPI_CTRL_DSS_Msk;
 	SPI0->CTRL |= (10 << SPI_CTRL_DSS_Pos);
 	
-	PA9_AsMISO();	//����ǰ�л�
+	PA9_AsMISO();	//发送前切换
 	
 	_SPIUART_Send(cnt);
 }
@@ -141,12 +141,12 @@ static void _SPIUART_Send(uint16_t cnt)
 }
 
 /****************************************************************************************************************************************** 
-* ��������:	SPIUART_Recv()
-* ����˵��:	��ȡ���յ������ݣ��������ݸ��������ݵ�bit15��֡�����־��bit14��У������־
-* ��    ��: uint16_t buff[]		��ȡ�������ݴ���buff
-*			uint16_t min		�����ݸ������� min ���򲻶�ȡ���ݣ�ֱ�ӷ���0
-* ��    ��: uint16_t 			���ݸ���
-* ע������: buff����Ĵ�С���벻С��SPI_RX_LEN
+* 函数名称:	SPIUART_Recv()
+* 功能说明:	读取接收到的数据，返回数据个数，数据的bit15是帧错误标志、bit14是校验错误标志
+* 输    入: uint16_t buff[]		读取到的数据存入buff
+*			uint16_t min		若数据个数少于 min ，则不读取数据，直接返回0
+* 输    出: uint16_t 			数据个数
+* 注意事项: buff数组的大小必须不小于SPI_RX_LEN
 ******************************************************************************************************************************************/
 uint16_t SPIUART_Recv(uint16_t buff[], uint16_t min)
 {
@@ -166,7 +166,7 @@ uint16_t SPIUART_Recv(uint16_t buff[], uint16_t min)
 
 void SPIUART_RecvPrepare(void)
 {
-	PA9_AsGPIO();	//����ʱSO��������ݲ����͵�������
+	PA9_AsGPIO();	//接收时SO输出的数据不发送到引脚上
 	
 	PA10_AsGPIO();
 	
@@ -185,9 +185,9 @@ void IRQ8_Handler(void)
 	{
 		SPI_MASTER_CLK_STOP();
 		
-		PA9_AsGPIO();	//������ʱSO��������ǵͣ��г�GPIO�����
+		PA9_AsGPIO();	//发送完时SO输出可能是低，切成GPIO输出高
 		
-		PA10_AsGPIO();	//׼����Ӧ��һ��EXTI�ж�
+		PA10_AsGPIO();	//准备响应下一个EXTI中断
 		
 		SPIUART_SendComplete = 1;
 		
@@ -224,7 +224,7 @@ void IRQ8_Handler(void)
 			tmp = SPI0->DATA;
 	}
 	
-	SPI0->IF = SPI_IF_TFE_Msk;	//����жϱ�־�����������TX FIFO�����жϱ�־
+	SPI0->IF = SPI_IF_TFE_Msk;	//清除中断标志，必须在填充TX FIFO后清中断标志
 }
 
 void IRQ9_Handler(void)
@@ -239,12 +239,12 @@ void IRQ9_Handler(void)
 
 
 /********************************************************************************************************
-                                            �ڲ�����
+                                            内部函数
 ********************************************************************************************************/
 
-const uint8_t InvCode[16] = {0x0, 0x8, 0x4, 0xC, 0x2, 0xA, 0x6, 				//UART�ȷ���LSB��SPI�ȷ���MSB����Ҫ��תλ��
-							 0xE, 0x1, 0x9, 0x5, 0xD, 0x3, 0xB, 0x7, 0xF};		//����0--15��Ӧ��λ��ת��ֵ
-const uint8_t EvenOf1[16] = {1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1};	//����0--15��Ӧ�Ƿ���ż����'1' 
+const uint8_t InvCode[16] = {0x0, 0x8, 0x4, 0xC, 0x2, 0xA, 0x6, 				//UART先发送LSB、SPI先发送MSB，需要反转位序
+							 0xE, 0x1, 0x9, 0x5, 0xD, 0x3, 0xB, 0x7, 0xF};		//整数0--15对应的位序反转数值
+const uint8_t EvenOf1[16] = {1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1};	//整数0--15对应是否有偶数个'1' 
 
 void UART2SPI_encode(uint8_t buff[], uint16_t cnt)
 {
@@ -257,13 +257,13 @@ void UART2SPI_encode(uint8_t buff[], uint16_t cnt)
 			   ((
 	#if IOUART_PARITY == IOUART_PARITY_EVEN
 				 (((EvenOf1[buff[i] & 0xF] == 1) && (EvenOf1[(buff[i] >> 4) & 0xF] == 1)) || 
-				  ((EvenOf1[buff[i] & 0xF] == 0) && (EvenOf1[(buff[i] >> 4) & 0xF] == 0)))	/* 	ż����1 */
+				  ((EvenOf1[buff[i] & 0xF] == 0) && (EvenOf1[(buff[i] >> 4) & 0xF] == 0)))	/* 	偶数个1 */
 	#else //IOUART_PARITY == IOUART_PARITY_ODD
 				 (((EvenOf1[buff[i] & 0xF] == 0) && (EvenOf1[(buff[i] >> 4) & 0xF] == 1)) || 
-				  ((EvenOf1[buff[i] & 0xF] == 1) && (EvenOf1[(buff[i] >> 4) & 0xF] == 0)))	/* 	������1 */
+				  ((EvenOf1[buff[i] & 0xF] == 1) && (EvenOf1[(buff[i] >> 4) & 0xF] == 0)))	/* 	奇数个1 */
 	#endif
 				 ? 0 : 1) << 1) |
-		       (1 << 0);					//��ʼλ0������λ��У��λ��ֹͣλ1
+		       (1 << 0);					//起始位0、数据位、校验位、停止位1
 		
 		SPI_TX_Buff[i] = code;
 	}
@@ -279,16 +279,16 @@ void SPI2UART_decode(uint16_t buff[], uint16_t cnt)
 	
 	#if IOUART_PARITY == IOUART_PARITY_EVEN
 		if(((EvenOf1[(buff[i] >> 1) & 0xF] == 1) && (EvenOf1[(buff[i] >> 5) & 0xF] == 1)) || 
-		   ((EvenOf1[(buff[i] >> 1) & 0xF] == 0) && (EvenOf1[(buff[i] >> 5) & 0xF] == 0)))	/* 	ż����1 */
+		   ((EvenOf1[(buff[i] >> 1) & 0xF] == 0) && (EvenOf1[(buff[i] >> 5) & 0xF] == 0)))	/* 	偶数个1 */
 	#else //IOUART_PARITY == IOUART_PARITY_ODD
 		if(((EvenOf1[(buff[i] >> 1) & 0xF] == 0) && (EvenOf1[(buff[i] >> 5) & 0xF] == 1)) || 
-		   ((EvenOf1[(buff[i] >> 1) & 0xF] == 1) && (EvenOf1[(buff[i] >> 5) & 0xF] == 0)))	/* 	������1 */
+		   ((EvenOf1[(buff[i] >> 1) & 0xF] == 1) && (EvenOf1[(buff[i] >> 5) & 0xF] == 0)))	/* 	奇数个1 */
 	#endif
 		{
-			if(((buff[i] >> 0) & 1) != 0) code |= SPIUART_PARITY_ERR_MASK;	//У�����
+			if(((buff[i] >> 0) & 1) != 0) code |= SPIUART_PARITY_ERR_MASK;	//校验错误
 		}
 		
-//		if(((buff[i] >> 0) & 1) != 1) 	  code |= SPIUART_FRAME_ERR_MASK;	//֡���󣬼�ֹͣλ��Ϊ1
+//		if(((buff[i] >> 0) & 1) != 1) 	  code |= SPIUART_FRAME_ERR_MASK;	//帧错误，即停止位不为1
 		
 		buff[i] = code;
 	}

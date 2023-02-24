@@ -5,9 +5,9 @@ int main(void)
 {	
 	SystemInit();
 	
-	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//Êä³ö£¬½ÓLED
+	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//è¾“å‡ºï¼Œæ¥LED
 	
-	SysTick_Config(SystemCoreClock/4);			//Ã¿0.25ÃëÖÓ´¥·¢Ò»´ÎÖĞ¶Ï
+	SysTick_Config(SystemCoreClock/4);			//æ¯0.25ç§’é’Ÿè§¦å‘ä¸€æ¬¡ä¸­æ–­
 			
 	while(1==1)
 	{
@@ -16,6 +16,6 @@ int main(void)
 
 void SysTick_Handler(void)
 {	
-	GPIO_InvBit(GPIOA, PIN5);	//·´×ªLEDÁÁÃğ×´Ì¬
+	GPIO_InvBit(GPIOA, PIN5);	//åè½¬LEDäº®ç­çŠ¶æ€
 }
 

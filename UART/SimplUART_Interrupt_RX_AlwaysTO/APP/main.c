@@ -3,9 +3,9 @@
 #include <string.h>
 
 
-/* ˵����ֻ�е����� FIFO �������ݣ�����ָ��ʱ����δ���յ��µ�����ʱ���Żᴥ����ʱ�жϡ�
- * ��Ӧ����ϣ��ͨ�����ݼ�ʱ������Ϊ֡������ݣ������ܶԷ����͹������ٸ����ݣ�
- * ����ܲ�����ʱ�жϣ�����ͨ���ڽ��� ISR �д� RX FIFO �ж�ȡ����ʱ�����ٶ�һ��������һ���������� RX FIFO �У���ʵ�֡�
+/* 说明：只有当接收 FIFO 中有数据，且在指定时间内未接收到新的数据时，才会触发超时中断。
+ * 若应用中希望通过数据间时间间隔作为帧间隔依据，即不管对方发送过来多少个数据，
+ * 最后都能产生超时中断，可以通过在接收 ISR 中从 RX FIFO 中读取数据时总是少读一个（即让一个数据留在 RX FIFO 中）来实现。
 */
 
 
@@ -45,7 +45,7 @@ uint32_t UART_GetChars(char *data)
 	
 	if(UART_RXIndex != 0)
 	{
-		NVIC_DisableIRQ(IRQ0_IRQ);		//��UART_RXBuffer��ȡ���ݹ�����Ҫ�ر��жϣ���ֹ��д����
+		NVIC_DisableIRQ(IRQ0_IRQ);		//从UART_RXBuffer读取数据过程中要关闭中断，防止读写混乱
 		memcpy(data, UART_RXBuffer, UART_RX_LEN);
 		len = UART_RXIndex;
 		UART_RXIndex = 0;
@@ -97,8 +97,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0����ΪUART0��������
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1����ΪUART0�������
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0配置为UART0输入引脚
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1配置为UART0输出引脚
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -108,7 +108,7 @@ void SerialInit(void)
 	UART_initStruct.RXThresholdIEn = 1;
 	UART_initStruct.TXThreshold = 3;
 	UART_initStruct.TXThresholdIEn = 0;
-	UART_initStruct.TimeoutTime = 10;		//10���ַ�ʱ����δ���յ��µ������򴥷���ʱ�ж�
+	UART_initStruct.TimeoutTime = 10;		//10个字符时间内未接收到新的数据则触发超时中断
 	UART_initStruct.TimeoutIEn = 1;
  	UART_Init(UART0, &UART_initStruct);
 	
@@ -118,12 +118,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: fputc()
-* ����˵��: printf()ʹ�ô˺������ʵ�ʵĴ��ڴ�ӡ����
-* ��    ��: int ch		Ҫ��ӡ���ַ�
-*			FILE *f		�ļ����
-* ��    ��: ��
-* ע������: ��
+* 函数名称: fputc()
+* 功能说明: printf()使用此函数完成实际的串口打印动作
+* 输    入: int ch		要打印的字符
+*			FILE *f		文件句柄
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

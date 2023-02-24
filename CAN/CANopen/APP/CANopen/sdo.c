@@ -842,7 +842,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 
 	/* Let's find cs value, first it is set as "not valid" */
 	cs = 0xFF; 
-	/* Special cases for block transfert : in frames with segment data cs is not spécified */
+	/* Special cases for block transfert : in frames with segment data cs is not sp茅cified */
    	if (!err) {
 		if ((whoami == SDO_SERVER) && (d->transfers[line].state == SDO_BLOCK_DOWNLOAD_IN_PROGRESS) ||
 			(whoami == SDO_CLIENT) && (d->transfers[line].state == SDO_BLOCK_UPLOAD_IN_PROGRESS)) {		
@@ -1444,7 +1444,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                         d->transfers[line].blksize = m->data[2];
                         AckSeq = (m->data[1]) & 0x7f;
                         getSDOlineRestBytes(d, line, &nbBytes);
-                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){ /* Si tout est envoyé et confirmé reçu on envoi un block end upload response */
+                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){ /* Si tout est envoy茅 et confirm茅 re莽u on envoi un block end upload response */
                             data[0] = (6 << 5) | ((d->transfers[line].endfield) << 2) | SDO_BSS_END_UPLOAD_RESPONSE;
                             for (i = 1 ; i < 8 ; i++)
 						        data[i] = 0;
@@ -1518,7 +1518,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                     	d->transfers[line].blksize = m->data[2];
                         AckSeq = (m->data[1]) & 0x7f;
                         getSDOlineRestBytes(d, line, &nbBytes);
-                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){ /* Si tout est envoyé et confirmé reçu on envoi un block end download request */
+                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){ /* Si tout est envoy茅 et confirm茅 re莽u on envoi un block end download request */
                             data[0] = (6 << 5) | ((d->transfers[line].endfield) << 2) | SDO_BCS_END_DOWNLOAD_REQUEST;
                             for (i = 1 ; i < 8 ; i++)
 						        data[i] = 0;

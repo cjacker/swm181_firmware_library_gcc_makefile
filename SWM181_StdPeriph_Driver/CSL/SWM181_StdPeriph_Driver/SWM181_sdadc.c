@@ -1,10 +1,10 @@
 /****************************************************************************************************************************************** 
-* ÎÄ¼þÃû³Æ: SWM181_sdadc.c
-* ¹¦ÄÜËµÃ÷:	SWM181µ¥Æ¬»úµÄSDADCÇý¶¯¿â
-* ¼¼ÊõÖ§³Ö:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
-* ×¢ÒâÊÂÏî:
-* °æ±¾ÈÕÆÚ:	V1.0.0		2016Äê1ÔÂ30ÈÕ
-* Éý¼¶¼ÇÂ¼:  
+* æ–‡ä»¶åç§°: SWM181_sdadc.c
+* åŠŸèƒ½è¯´æ˜Ž:	SWM181å•ç‰‡æœºçš„SDADCé©±åŠ¨åº“
+* æŠ€æœ¯æ”¯æŒ:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
+* æ³¨æ„äº‹é¡¹:
+* ç‰ˆæœ¬æ—¥æœŸ:	V1.0.0		2016å¹´1æœˆ30æ—¥
+* å‡çº§è®°å½•:  
 *
 *
 *******************************************************************************************************************************************
@@ -22,12 +22,12 @@
 #include "SWM181_sdadc.h"
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: SDADC_Init()
-* ¹¦ÄÜËµÃ÷:	Sigma Delta ADCÄ£Êý×ª»»Æ÷³õÊ¼»¯
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬ÓÐÐ§Öµ°üÀ¨SDADC
-*			SDADC_InitStructure * initStruct	 °üº¬SDADC¸÷Ïà¹Ø¶¨ÖµµÄ½á¹¹Ìå
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: SDADCµÄÊ±ÖÓÔ´Ñ¡ÔñÎ»Í¬ADCµÄÊ±ÖÓÔ´Ñ¡ÔñÎ»ÊÇÍ¬Ò»Î»£¬ÉèÖÃÊ±×¢Òâ±£³ÖÒ»ÖÂ£¬²»Òª³åÍ»
+* å‡½æ•°åç§°: SDADC_Init()
+* åŠŸèƒ½è¯´æ˜Ž:	Sigma Delta ADCæ¨¡æ•°è½¬æ¢å™¨åˆå§‹åŒ–
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œæœ‰æ•ˆå€¼åŒ…æ‹¬SDADC
+*			SDADC_InitStructure * initStruct	 åŒ…å«SDADCå„ç›¸å…³å®šå€¼çš„ç»“æž„ä½“
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: SDADCçš„æ—¶é’Ÿæºé€‰æ‹©ä½åŒADCçš„æ—¶é’Ÿæºé€‰æ‹©ä½æ˜¯åŒä¸€ä½ï¼Œè®¾ç½®æ—¶æ³¨æ„ä¿æŒä¸€è‡´ï¼Œä¸è¦å†²çª
 ******************************************************************************************************************************************/
 void SDADC_Init(SDADC_TypeDef * SDADCx, SDADC_InitStructure * initStruct)
 {
@@ -38,7 +38,7 @@ void SDADC_Init(SDADC_TypeDef * SDADCx, SDADC_InitStructure * initStruct)
 	
 		if(initStruct->clk_src == SDADC_CLKSRC_XTAL_DIV8)
 		{
-			if((SYS->XTALCR & SYS_XTALCR_EN_Msk) == 0)	// SDADCÊ¹ÓÃXTALÊ±ÖÓ×ª»»£¬¶øXTALÓÖÃ»¿ªÆôµÄ»°£¬Ôò¿ªÆôÖ®
+			if((SYS->XTALCR & SYS_XTALCR_EN_Msk) == 0)	// SDADCä½¿ç”¨XTALæ—¶é’Ÿè½¬æ¢ï¼Œè€ŒXTALåˆæ²¡å¼€å¯çš„è¯ï¼Œåˆ™å¼€å¯ä¹‹
 			{
 				PORT_Init(PORTC, PIN1, PORTC_PIN1_XTAL_IN, 0);
 				PORT_Init(PORTC, PIN0, PORTC_PIN0_XTAL_OUT, 0);
@@ -63,7 +63,7 @@ void SDADC_Init(SDADC_TypeDef * SDADCx, SDADC_InitStructure * initStruct)
 				   (initStruct->trig_src << SDADC_CTRL_TRIG_Pos)    |
 				   (0 << SDADC_CTRL_DMAEN_Pos);
 	
-	SDADCx->IF = 0x1F;			//Çå³ýÖÐ¶Ï±êÖ¾
+	SDADCx->IF = 0x1F;			//æ¸…é™¤ä¸­æ–­æ ‡å¿—
 	SDADCx->IE = (initStruct->EOC_IEn << SDADC_IE_EOC_Pos) 	  |
 				 (initStruct->OVF_IEn << SDADC_IE_FFOV_Pos)   |
 				 (initStruct->HFULL_IEn << SDADC_IE_FFHF_Pos) |
@@ -71,15 +71,15 @@ void SDADC_Init(SDADC_TypeDef * SDADCx, SDADC_InitStructure * initStruct)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Config_Set()
-* ¹¦ÄÜËµÃ÷:	SDADCÖ§³Ö3¸öÅäÖÃ£¬6¸öÊäÈëÍ¨µÀ¿ÉÑ¡ÔñÆäÖÐÒ»¸ö×÷Îª×Ô¼ºµÄÅäÖÃ£¬´Ëº¯ÊýÓÃÓÚÉèÖÃÅäÖÃµÄ¾ßÌåÄÚÈÝ
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-*			uint32_t CFGx				ÒªÉèÖÃÄÄ¸öÅäÖÃ£¬¿ÉÈ¡ÖµSDADC_CFG_A¡¢SDADC_CFG_B¡¢SDADC_CFG_C
-*			uint32_t gian				ÔöÒæ£¬¿ÉÈ¡ÖµSDADC_CFG_GAIN_1¡¢SDADC_CFG_GAIN_2¡¢... ...¡¢SDADC_CFG_GAIN_1DIV2
-*			uint32_t sigle_end			0 ²î·ÖÄ£Ê½    1 µ¥¶ËÄ£Ê½
-*			uint32_t refm_as_inn		0 Í¨µÀµÄNÊäÈë½Å×÷ÎªNÊäÈë¶Ë    1 ¹«¹²µÄAINREFMÒý½Å×÷ÎªNÊäÈë¶Ë
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Config_Set()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCæ”¯æŒ3ä¸ªé…ç½®ï¼Œ6ä¸ªè¾“å…¥é€šé“å¯é€‰æ‹©å…¶ä¸­ä¸€ä¸ªä½œä¸ºè‡ªå·±çš„é…ç½®ï¼Œæ­¤å‡½æ•°ç”¨äºŽè®¾ç½®é…ç½®çš„å…·ä½“å†…å®¹
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+*			uint32_t CFGx				è¦è®¾ç½®å“ªä¸ªé…ç½®ï¼Œå¯å–å€¼SDADC_CFG_Aã€SDADC_CFG_Bã€SDADC_CFG_C
+*			uint32_t gian				å¢žç›Šï¼Œå¯å–å€¼SDADC_CFG_GAIN_1ã€SDADC_CFG_GAIN_2ã€... ...ã€SDADC_CFG_GAIN_1DIV2
+*			uint32_t sigle_end			0 å·®åˆ†æ¨¡å¼    1 å•ç«¯æ¨¡å¼
+*			uint32_t refm_as_inn		0 é€šé“çš„Nè¾“å…¥è„šä½œä¸ºNè¾“å…¥ç«¯    1 å…¬å…±çš„AINREFMå¼•è„šä½œä¸ºNè¾“å…¥ç«¯
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Config_Set(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t gian, uint32_t sigle_end, uint32_t refm_as_inn)
 {
@@ -106,20 +106,20 @@ void SDADC_Config_Set(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t gian, uint
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Config_Cali()
-* ¹¦ÄÜËµÃ÷:	SDADCÖ§³Ö3¸öÅäÖÃ£¬6¸öÊäÈëÍ¨µÀ¿ÉÑ¡ÔñÆäÖÐÒ»¸ö×÷Îª×Ô¼ºµÄÅäÖÃ£¬´Ëº¯ÊýÓÃÓÚÉèÖÃÅäÖÃµÄ¾ßÌåÄÚÈÝ
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-*			uint32_t CFGx				ÒªÉèÖÃÄÄ¸öÅäÖÃ£¬¿ÉÈ¡ÖµSDADC_CFG_A¡¢SDADC_CFG_B¡¢SDADC_CFG_C
-*			uint32_t cali_com			Ð£×¼¹«¹²¶Ë£¬¿ÉÈ¡ÖµÓÐSDADC_CALI_COM_GND¡¢SDADC_CALI_COM_VDD_1DIV2¡¢SDADC_CALI_COM_VDD
-*			uint32_t cali_fast			¿ìËÙÐ£×¼£¬¿É½«Ð£×¼Ê±¼äËõ¶ÌÖÁ1/3
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Config_Cali()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCæ”¯æŒ3ä¸ªé…ç½®ï¼Œ6ä¸ªè¾“å…¥é€šé“å¯é€‰æ‹©å…¶ä¸­ä¸€ä¸ªä½œä¸ºè‡ªå·±çš„é…ç½®ï¼Œæ­¤å‡½æ•°ç”¨äºŽè®¾ç½®é…ç½®çš„å…·ä½“å†…å®¹
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+*			uint32_t CFGx				è¦è®¾ç½®å“ªä¸ªé…ç½®ï¼Œå¯å–å€¼SDADC_CFG_Aã€SDADC_CFG_Bã€SDADC_CFG_C
+*			uint32_t cali_com			æ ¡å‡†å…¬å…±ç«¯ï¼Œå¯å–å€¼æœ‰SDADC_CALI_COM_GNDã€SDADC_CALI_COM_VDD_1DIV2ã€SDADC_CALI_COM_VDD
+*			uint32_t cali_fast			å¿«é€Ÿæ ¡å‡†ï¼Œå¯å°†æ ¡å‡†æ—¶é—´ç¼©çŸ­è‡³1/3
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Config_Cali(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t cali_com, uint32_t cali_fast)
 {
-	uint32_t sdadc_CTRL = SDADCx->CTRL;		//±£´æSDADCx->CTRL¼Ä´æÆ÷µÄÖµ
+	uint32_t sdadc_CTRL = SDADCx->CTRL;		//ä¿å­˜SDADCx->CTRLå¯„å­˜å™¨çš„å€¼
 	
-	SDADCx->CTRL = ((1 << 9) << SDADC_CTRL_CH0SEL_Pos)  		|	//Ñ¡ÖÐÐ£×¼Í¨µÀ
+	SDADCx->CTRL = ((1 << 9) << SDADC_CTRL_CH0SEL_Pos)  		|	//é€‰ä¸­æ ¡å‡†é€šé“
 				   (0 << SDADC_CTRL_RST_Pos)                   	|
 				   (1 << SDADC_CTRL_EN_Pos)						|
 				   (1 << SDADC_CTRL_BIAS_Pos)                  	|
@@ -132,24 +132,24 @@ void SDADC_Config_Cali(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t cali_com,
 				   (SDADC_TRIGSRC_SW << SDADC_CTRL_TRIG_Pos)   	|
 				   (0 << SDADC_CTRL_DMAEN_Pos);
 	
-	SDADCx->CFGS &= ~(3 << (9*2));			//Ñ¡ÔñÒªÐ£×¼ÄÄ¸öÅäÖÃ
+	SDADCx->CFGS &= ~(3 << (9*2));			//é€‰æ‹©è¦æ ¡å‡†å“ªä¸ªé…ç½®
 	SDADCx->CFGS |= (CFGx << (9*2));
 	
-	SDADC_Start(SDADC);						//¿ªÆô×ª»»£¬Ö´ÐÐÐ£×¼
+	SDADC_Start(SDADC);						//å¼€å¯è½¬æ¢ï¼Œæ‰§è¡Œæ ¡å‡†
 	while((SDADC->STAT & SDADC_STAT_CALEOC_Msk) == 0);
 	SDADC->STAT = 1 << SDADC_STAT_CALEOC_Pos;
 	
-	SDADCx->CTRL = sdadc_CTRL;				//»Ö¸´SDADCx->CTRL¼Ä´æÆ÷µÄÖµ
+	SDADCx->CTRL = sdadc_CTRL;				//æ¢å¤SDADCx->CTRLå¯„å­˜å™¨çš„å€¼
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Config_Sel()
-* ¹¦ÄÜËµÃ÷:	SDADCÖ§³Ö3¸öÅäÖÃ£¬6¸öÊäÈëÍ¨µÀ¿ÉÑ¡ÔñÆäÖÐÒ»¸ö×÷Îª×Ô¼ºµÄÅäÖÃ£¬´Ëº¯ÊýÓÃÓÚÎªÍ¨µÀÑ¡ÔñÅäÖÃ
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-*			uint32_t CFGx				ÒªÉèÖÃÄÄ¸öÅäÖÃ£¬¿ÉÈ¡ÖµSDADC_CFG_A¡¢SDADC_CFG_B¡¢SDADC_CFG_C
-*			uint32_t channels			Ñ¡ÔñÊ¹ÓÃÅäÖÃCFGxµÄÍ¨µÀ£¬¿ÉÈ¡ÖµSDADC_CH0¡¢SDADC_CH1¡¢... ... ¡¢SDADC_CH5¼°Æä×éºÏ£¨¼´¡°°´Î»»ò¡±ÔËËã£©
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Config_Sel()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCæ”¯æŒ3ä¸ªé…ç½®ï¼Œ6ä¸ªè¾“å…¥é€šé“å¯é€‰æ‹©å…¶ä¸­ä¸€ä¸ªä½œä¸ºè‡ªå·±çš„é…ç½®ï¼Œæ­¤å‡½æ•°ç”¨äºŽä¸ºé€šé“é€‰æ‹©é…ç½®
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+*			uint32_t CFGx				è¦è®¾ç½®å“ªä¸ªé…ç½®ï¼Œå¯å–å€¼SDADC_CFG_Aã€SDADC_CFG_Bã€SDADC_CFG_C
+*			uint32_t channels			é€‰æ‹©ä½¿ç”¨é…ç½®CFGxçš„é€šé“ï¼Œå¯å–å€¼SDADC_CH0ã€SDADC_CH1ã€... ... ã€SDADC_CH5åŠå…¶ç»„åˆï¼ˆå³â€œæŒ‰ä½æˆ–â€è¿ç®—ï¼‰
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Config_Sel(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t channels)
 {
@@ -166,11 +166,11 @@ void SDADC_Config_Sel(SDADC_TypeDef * SDADCx, uint32_t CFGx, uint32_t channels)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Open()
-* ¹¦ÄÜËµÃ÷:	SDADC¿ªÆô£¬¿ÉÒÔÈí¼þÆô¶¯¡¢»òÓ²¼þ´¥·¢SDADC×ª»»
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Open()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCå¼€å¯ï¼Œå¯ä»¥è½¯ä»¶å¯åŠ¨ã€æˆ–ç¡¬ä»¶è§¦å‘SDADCè½¬æ¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Open(SDADC_TypeDef * SDADCx)
 {
@@ -178,11 +178,11 @@ void SDADC_Open(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Close()
-* ¹¦ÄÜËµÃ÷:	SDADC¹Ø±Õ£¬ÎÞ·¨Èí¼þÆô¶¯¡¢»òÓ²¼þ´¥·¢SDADC×ª»»
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Close()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCå…³é—­ï¼Œæ— æ³•è½¯ä»¶å¯åŠ¨ã€æˆ–ç¡¬ä»¶è§¦å‘SDADCè½¬æ¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Close(SDADC_TypeDef * SDADCx)
 {
@@ -190,11 +190,11 @@ void SDADC_Close(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Start()
-* ¹¦ÄÜËµÃ÷:	Èí¼þ´¥·¢Ä£Ê½ÏÂÆô¶¯SDADC×ª»»
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Start()
+* åŠŸèƒ½è¯´æ˜Ž:	è½¯ä»¶è§¦å‘æ¨¡å¼ä¸‹å¯åŠ¨SDADCè½¬æ¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Start(SDADC_TypeDef * SDADCx)
 {
@@ -202,11 +202,11 @@ void SDADC_Start(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Stop()
-* ¹¦ÄÜËµÃ÷:	Èí¼þ´¥·¢Ä£Ê½ÏÂÍ£Ö¹SDADC×ª»»
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Stop()
+* åŠŸèƒ½è¯´æ˜Ž:	è½¯ä»¶è§¦å‘æ¨¡å¼ä¸‹åœæ­¢SDADCè½¬æ¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_Stop(SDADC_TypeDef * SDADCx)
 {
@@ -214,12 +214,12 @@ void SDADC_Stop(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_Read()
-* ¹¦ÄÜËµÃ÷:	¶ÁÈ¡×ª»»½á¹û
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª¶ÁÈ¡µÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: int16_t						¶ÁÈ¡µ½µÄ×ª»»½á¹û
-*			uint32_t *chn				×ª»»½á¹ûÀ´×ÔÄÄ¸öÍ¨µÀ£¬0 SDADC_CH0    1 SDADC_CH1¡¢... ...¡¢5 SDADC_CH5
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_Read()
+* åŠŸèƒ½è¯´æ˜Ž:	è¯»å–è½¬æ¢ç»“æžœ
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¯»å–çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: int16_t						è¯»å–åˆ°çš„è½¬æ¢ç»“æžœ
+*			uint32_t *chn				è½¬æ¢ç»“æžœæ¥è‡ªå“ªä¸ªé€šé“ï¼Œ0 SDADC_CH0    1 SDADC_CH1ã€... ...ã€5 SDADC_CH5
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int16_t SDADC_Read(SDADC_TypeDef * SDADCx, uint32_t *chn)
 {
@@ -230,11 +230,11 @@ int16_t SDADC_Read(SDADC_TypeDef * SDADCx, uint32_t *chn)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IsEOC()
-* ¹¦ÄÜËµÃ÷:	ÊÇ·ñEnd Of Conversion
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª²éÑ¯µÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: uint32_t					1 ÓÐÍ¨µÀÍê³É×ª»»    0 Ã»ÓÐÍ¨µÀÍê³É×ª»»
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IsEOC()
+* åŠŸèƒ½è¯´æ˜Ž:	æ˜¯å¦End Of Conversion
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦æŸ¥è¯¢çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: uint32_t					1 æœ‰é€šé“å®Œæˆè½¬æ¢    0 æ²¡æœ‰é€šé“å®Œæˆè½¬æ¢
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 uint32_t SDADC_IsEOC(SDADC_TypeDef * SDADCx)
 {
@@ -242,12 +242,12 @@ uint32_t SDADC_IsEOC(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_ChnOpen()
-* ¹¦ÄÜËµÃ÷:	SDADCÍ¨µÀ¿ªÆô£¬Ä£Êý×ª»»»áÔÚ¿ªÆôµÄÍ¨µÀÉÏÒÀ´Î²ÉÑù×ª»»
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-*			uint32_t chns				Òª´ò¿ªµÄÍ¨µÀ£¬ÓÐÐ§ÖµSDADC_CH0¡¢SDADC_CH1¡¢... ... ¡¢SDADC_CH5¼°Æä×éºÏ£¨¼´¡°°´Î»»ò¡±ÔËËã£©
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_ChnOpen()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCé€šé“å¼€å¯ï¼Œæ¨¡æ•°è½¬æ¢ä¼šåœ¨å¼€å¯çš„é€šé“ä¸Šä¾æ¬¡é‡‡æ ·è½¬æ¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+*			uint32_t chns				è¦æ‰“å¼€çš„é€šé“ï¼Œæœ‰æ•ˆå€¼SDADC_CH0ã€SDADC_CH1ã€... ... ã€SDADC_CH5åŠå…¶ç»„åˆï¼ˆå³â€œæŒ‰ä½æˆ–â€è¿ç®—ï¼‰
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_ChnOpen(SDADC_TypeDef * SDADCx, uint32_t chns)
 {
@@ -255,12 +255,12 @@ void SDADC_ChnOpen(SDADC_TypeDef * SDADCx, uint32_t chns)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_ChnClose()
-* ¹¦ÄÜËµÃ÷:	SDADCÍ¨µÀ¹Ø±Õ
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-*			uint32_t chns				Òª¹Ø±ÕµÄÍ¨µÀ£¬ÓÐÐ§ÖµSDADC_CH0¡¢SDADC_CH1¡¢... ... ¡¢SDADC_CH5¼°Æä×éºÏ£¨¼´¡°°´Î»»ò¡±ÔËËã£©	
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_ChnClose()
+* åŠŸèƒ½è¯´æ˜Ž:	SDADCé€šé“å…³é—­
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+*			uint32_t chns				è¦å…³é—­çš„é€šé“ï¼Œæœ‰æ•ˆå€¼SDADC_CH0ã€SDADC_CH1ã€... ... ã€SDADC_CH5åŠå…¶ç»„åˆï¼ˆå³â€œæŒ‰ä½æˆ–â€è¿ç®—ï¼‰	
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_ChnClose(SDADC_TypeDef * SDADCx, uint32_t chns)
 {
@@ -268,11 +268,11 @@ void SDADC_ChnClose(SDADC_TypeDef * SDADCx, uint32_t chns)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntEOCEn()
-* ¹¦ÄÜËµÃ÷:	×ª»»Íê³ÉÖÐ¶ÏÊ¹ÄÜ
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntEOCEn()
+* åŠŸèƒ½è¯´æ˜Ž:	è½¬æ¢å®Œæˆä¸­æ–­ä½¿èƒ½
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_IntEOCEn(SDADC_TypeDef * SDADCx)
 {
@@ -280,11 +280,11 @@ void SDADC_IntEOCEn(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntEOCDis()
-* ¹¦ÄÜËµÃ÷:	×ª»»Íê³ÉÖÐ¶Ï½ûÖ¹
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntEOCDis()
+* åŠŸèƒ½è¯´æ˜Ž:	è½¬æ¢å®Œæˆä¸­æ–­ç¦æ­¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_IntEOCDis(SDADC_TypeDef * SDADCx)
 {
@@ -292,11 +292,11 @@ void SDADC_IntEOCDis(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntEOCClr()
-* ¹¦ÄÜËµÃ÷:	×ª»»Íê³ÉÖÐ¶Ï±êÖ¾Çå³ý
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntEOCClr()
+* åŠŸèƒ½è¯´æ˜Ž:	è½¬æ¢å®Œæˆä¸­æ–­æ ‡å¿—æ¸…é™¤
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_IntEOCClr(SDADC_TypeDef * SDADCx)
 {
@@ -304,11 +304,11 @@ void SDADC_IntEOCClr(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntEOCStat()
-* ¹¦ÄÜËµÃ÷:	×ª»»Íê³ÉÖÐ¶Ï×´Ì¬
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: uint32_t					1 Í¨µÀÍê³ÉÁË×ª»»    0 Í¨µÀÎ´Íê³É×ª»»
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntEOCStat()
+* åŠŸèƒ½è¯´æ˜Ž:	è½¬æ¢å®Œæˆä¸­æ–­çŠ¶æ€
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: uint32_t					1 é€šé“å®Œæˆäº†è½¬æ¢    0 é€šé“æœªå®Œæˆè½¬æ¢
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 uint32_t SDADC_IntEOCStat(SDADC_TypeDef * SDADCx)
 {	
@@ -316,11 +316,11 @@ uint32_t SDADC_IntEOCStat(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntOVFEn()
-* ¹¦ÄÜËµÃ÷:	Êý¾ÝÒç³öÖÐ¶ÏÊ¹ÄÜ
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntOVFEn()
+* åŠŸèƒ½è¯´æ˜Ž:	æ•°æ®æº¢å‡ºä¸­æ–­ä½¿èƒ½
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_IntOVFEn(SDADC_TypeDef * SDADCx)
 {
@@ -328,11 +328,11 @@ void SDADC_IntOVFEn(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntOVFDis()
-* ¹¦ÄÜËµÃ÷:	Êý¾ÝÒç³öÖÐ¶Ï½ûÖ¹
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntOVFDis()
+* åŠŸèƒ½è¯´æ˜Ž:	æ•°æ®æº¢å‡ºä¸­æ–­ç¦æ­¢
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_IntOVFDis(SDADC_TypeDef * SDADCx)
 {	
@@ -340,11 +340,11 @@ void SDADC_IntOVFDis(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntOVFClr()
-* ¹¦ÄÜËµÃ÷:	Êý¾ÝÒç³öÖÐ¶Ï±êÖ¾Çå³ý
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntOVFClr()
+* åŠŸèƒ½è¯´æ˜Ž:	æ•°æ®æº¢å‡ºä¸­æ–­æ ‡å¿—æ¸…é™¤
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void SDADC_IntOVFClr(SDADC_TypeDef * SDADCx)
 {
@@ -352,11 +352,11 @@ void SDADC_IntOVFClr(SDADC_TypeDef * SDADCx)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SDADC_IntOVFStat()
-* ¹¦ÄÜËµÃ÷:	Êý¾ÝÒç³öÖÐ¶Ï×´Ì¬
-* Êä    Èë: SDADC_TypeDef * SDADCx		Ö¸¶¨Òª±»ÉèÖÃµÄSDADC£¬¿ÉÈ¡Öµ°üÀ¨SDADC
-* Êä    ³ö: uint32_t					1 ÓÐÍ¨µÀÒç³ö    0 Ã»ÓÐÍ¨µÀÒç³ö
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SDADC_IntOVFStat()
+* åŠŸèƒ½è¯´æ˜Ž:	æ•°æ®æº¢å‡ºä¸­æ–­çŠ¶æ€
+* è¾“    å…¥: SDADC_TypeDef * SDADCx		æŒ‡å®šè¦è¢«è®¾ç½®çš„SDADCï¼Œå¯å–å€¼åŒ…æ‹¬SDADC
+* è¾“    å‡º: uint32_t					1 æœ‰é€šé“æº¢å‡º    0 æ²¡æœ‰é€šé“æº¢å‡º
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 uint32_t SDADC_IntOVFStat(SDADC_TypeDef * SDADCx)
 {	

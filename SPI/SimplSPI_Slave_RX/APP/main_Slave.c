@@ -56,10 +56,10 @@ void SPISlvInit(void)
 	
 	SPI_Open(SPI1);
 	
-	/* ÓëPC4Òý½ÅÏàÁ¬£¬ÓÃÓÚ¼ì²âSPI´Ó»úµÄCS DeassertÊÂ¼þ */
-	GPIO_Init(GPIOA, PIN4, 0, 1, 0, 0);			//ÊäÈë£¬ÉÏÀ­Ê¹ÄÜ
+	/* ä¸ŽPC4å¼•è„šç›¸è¿žï¼Œç”¨äºŽæ£€æµ‹SPIä»Žæœºçš„CS Deassertäº‹ä»¶ */
+	GPIO_Init(GPIOA, PIN4, 0, 1, 0, 0);			//è¾“å…¥ï¼Œä¸Šæ‹‰ä½¿èƒ½
 	
-	EXTI_Init(GPIOA, PIN4, EXTI_RISE_EDGE);		//ÉÏÉýÑØ´¥·¢ÖÐ¶Ï
+	EXTI_Init(GPIOA, PIN4, EXTI_RISE_EDGE);		//ä¸Šå‡æ²¿è§¦å‘ä¸­æ–­
 	
 	IRQ_Connect(IRQ0_15_GPIOA4, IRQ5_IRQ, 2);
 	
@@ -75,7 +75,7 @@ void IRQ4_Handler(void)
 			SPI1RXBuffer[SPI1RXIndex++] = SPI1->DATA;
 		}
 		
-		SPI1->IF = (1 << SPI_IF_RFHF_Pos);	// ÏÈ¶Á³öÊý¾Ý£¬ÔÙÇå³ý±êÖ¾
+		SPI1->IF = (1 << SPI_IF_RFHF_Pos);	// å…ˆè¯»å‡ºæ•°æ®ï¼Œå†æ¸…é™¤æ ‡å¿—
 	}
 }
 
@@ -95,8 +95,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒý½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒý½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -110,12 +110,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊýÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼þ¾ä±ú
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜Ž: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®žé™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

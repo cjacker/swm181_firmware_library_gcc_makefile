@@ -2,9 +2,9 @@
 
 #include <RTL.h>
 
-/* ×¢Òâ£º
-*	ÎªÁË¼òµ¥£¬ÔÚRX_Conf_CM.cÖĞÅäÖÃËùÓĞTask¶¼ÔËĞĞÓÚÌØÈ¨µÈ¼¶£¬·ñÔòµ±TaskÖĞ
-* ´úÂëĞ´Ä³Ğ©ÄÚºË¼Ä´æÆ÷£¨Èçµ÷ÓÃNVIC_DisableIRQ())Ê±¾Í»á´¥·¢HardFault
+/* æ³¨æ„ï¼š
+*	ä¸ºäº†ç®€å•ï¼Œåœ¨RX_Conf_CM.cä¸­é…ç½®æ‰€æœ‰Taskéƒ½è¿è¡Œäºç‰¹æƒç­‰çº§ï¼Œå¦åˆ™å½“Taskä¸­
+* ä»£ç å†™æŸäº›å†…æ ¸å¯„å­˜å™¨ï¼ˆå¦‚è°ƒç”¨NVIC_DisableIRQ())æ—¶å°±ä¼šè§¦å‘HardFault
 ************************************************************************/
 
 os_mbx_declare(queueADC, 16);
@@ -34,11 +34,11 @@ __task void TaskINI(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ:	TaskADC()
-* ¹¦ÄÜËµÃ÷: Æô¶¯ADC²É¼¯ÈÎÎñ
-* Êä    Èë: ÎŞ
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°:	TaskADC()
+* åŠŸèƒ½è¯´æ˜: å¯åŠ¨ADCé‡‡é›†ä»»åŠ¡
+* è¾“    å…¥: æ— 
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 __task void TaskADC(void)
 {
@@ -56,19 +56,19 @@ __task void TaskADC(void)
 	ADC_initStruct.clk_src = ADC_CLKSRC_HRC_DIV4;
 	ADC_initStruct.channels = ADC_CH6;
 	ADC_initStruct.trig_src = ADC_TRIGSRC_TIMR3;
-	ADC_initStruct.Continue = 0;					//·ÇÁ¬ĞøÄ£Ê½£¬¼´µ¥´ÎÄ£Ê½
+	ADC_initStruct.Continue = 0;					//éè¿ç»­æ¨¡å¼ï¼Œå³å•æ¬¡æ¨¡å¼
 	ADC_initStruct.EOC_IEn = ADC_CH6;	
 	ADC_initStruct.OVF_IEn = 0;
-	ADC_Init(ADC, &ADC_initStruct);					//ÅäÖÃADC
+	ADC_Init(ADC, &ADC_initStruct);					//é…ç½®ADC
 	
 	IRQ_Connect(IRQ0_15_ADC, IRQ5_IRQ, 1);
 	
-	ADC_Open(ADC);									//Ê¹ÄÜADC
+	ADC_Open(ADC);									//ä½¿èƒ½ADC
 	
 	TIMR_Init(TIMR3, TIMR_MODE_TIMER, SystemCoreClock/10, 0);
 	TIMR_Start(TIMR3);
 	
-	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);				//µ÷ÊÔÖ¸Ê¾ĞÅºÅ
+	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);				//è°ƒè¯•æŒ‡ç¤ºä¿¡å·
 	
 	while(1)
 	{
@@ -82,7 +82,7 @@ void IRQ5_Handler(void)
 {		
 	uint32_t val;
 	
-	ADC_IntEOCClr(ADC, ADC_CH6);	//Çå³ıÖĞ¶Ï±êÖ¾
+	ADC_IntEOCClr(ADC, ADC_CH6);	//æ¸…é™¤ä¸­æ–­æ ‡å¿—
 	
 	val = ADC_Read(ADC, ADC_CH6);
 	
@@ -92,11 +92,11 @@ void IRQ5_Handler(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ:	TaskPWM()
-* ¹¦ÄÜËµÃ÷: µÈ´ıADC×ª»»½á¹û£¬¸ù¾İADC×ª»»½á¹ûÉèÖÃPWMÕ¼¿Õ±È
-* Êä    Èë: ÎŞ
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°:	TaskPWM()
+* åŠŸèƒ½è¯´æ˜: ç­‰å¾…ADCè½¬æ¢ç»“æœï¼Œæ ¹æ®ADCè½¬æ¢ç»“æœè®¾ç½®PWMå ç©ºæ¯”
+* è¾“    å…¥: æ— 
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 __task void TaskPWM(void)
 {
@@ -105,7 +105,7 @@ __task void TaskPWM(void)
 	
 	PWM_initStruct.clk_div = PWM_CLKDIV_4;		//F_PWM = 24M/4 = 6M
 	
-	PWM_initStruct.mode = PWM_MODE_INDEP;		//AÂ·ºÍBÂ·¶ÀÁ¢Êä³ö					
+	PWM_initStruct.mode = PWM_MODE_INDEP;		//Aè·¯å’ŒBè·¯ç‹¬ç«‹è¾“å‡º					
 	PWM_initStruct.cycleA = 10000;				//6M/10000 = 600Hz			
 	PWM_initStruct.hdutyA =  2500;				//2500/10000 = 25%
 	PWM_initStruct.initLevelA = 1;
@@ -141,8 +141,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -156,12 +156,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

@@ -30,12 +30,12 @@ int main(void)
 	SDADC_initStruct.out_cali = SDADC_OUT_CALIED;
 	SDADC_initStruct.refp_sel = SDADC_REFP_AVDD;
 	SDADC_initStruct.trig_src = SDADC_TRIGSRC_SW;
-	SDADC_initStruct.Continue = 0;						//·ÇÁ¬ĞøÄ£Ê½£¬¼´µ¥´ÎÄ£Ê½
+	SDADC_initStruct.Continue = 0;						//éè¿ç»­æ¨¡å¼ï¼Œå³å•æ¬¡æ¨¡å¼
 	SDADC_initStruct.EOC_IEn = 1;	
 	SDADC_initStruct.OVF_IEn = 0;
 	SDADC_initStruct.HFULL_IEn = 0;
 	SDADC_initStruct.FULL_IEn = 0;
-	SDADC_Init(SDADC, &SDADC_initStruct);				//ÅäÖÃSDADC
+	SDADC_Init(SDADC, &SDADC_initStruct);				//é…ç½®SDADC
 	
 	SDADC_Config_Set(SDADC, SDADC_CFG_A, SDADC_CFG_GAIN_1, 1, 1);
 	SDADC_Config_Cali(SDADC, SDADC_CFG_A, SDADC_CALI_COM_GND, 0);
@@ -46,7 +46,7 @@ int main(void)
 	
 	IRQ_Connect(IRQ0_15_SDADC, IRQ5_IRQ, 1);
 	
-	SDADC_Open(SDADC);									//Ê¹ÄÜSDADC
+	SDADC_Open(SDADC);									//ä½¿èƒ½SDADC
 	SDADC_Start(SDADC);
 	
 	while(1==1)
@@ -60,42 +60,42 @@ void IRQ5_Handler(void)
 	int16_t res;
 	uint32_t i, chn;
 	
-	SDADC_IntEOCClr(SDADC);			//Çå³ıÖĞ¶Ï±êÖ¾
+	SDADC_IntEOCClr(SDADC);			//æ¸…é™¤ä¸­æ–­æ ‡å¿—
 	
 	res = SDADC_Read(SDADC, &chn);
 	SDADC_Result[chn] = res + 32768;
 	
-	SDADC_Close(SDADC);		//Ö»ÄÜÔÚ¹Ø±ÕÊ±ÇĞ»»Í¨µÀ
+	SDADC_Close(SDADC);		//åªèƒ½åœ¨å…³é—­æ—¶åˆ‡æ¢é€šé“
 	switch(chn)
 	{
 	case 0:
-		SDADC_ChnClose(SDADC, SDADC_CH0);	//¹Ø±ÕÍ¨µÀ0
-		SDADC_ChnOpen(SDADC, SDADC_CH1);	//¿ªÆôÍ¨µÀ1
+		SDADC_ChnClose(SDADC, SDADC_CH0);	//å…³é—­é€šé“0
+		SDADC_ChnOpen(SDADC, SDADC_CH1);	//å¼€å¯é€šé“1
 		break;
 	
 	case 1:
-		SDADC_ChnClose(SDADC, SDADC_CH1);	//¹Ø±ÕÍ¨µÀ1
-		SDADC_ChnOpen(SDADC, SDADC_CH2);	//¿ªÆôÍ¨µÀ2
+		SDADC_ChnClose(SDADC, SDADC_CH1);	//å…³é—­é€šé“1
+		SDADC_ChnOpen(SDADC, SDADC_CH2);	//å¼€å¯é€šé“2
 		break;
 	
 	case 2:
-		SDADC_ChnClose(SDADC, SDADC_CH2);	//¹Ø±ÕÍ¨µÀ2
-		SDADC_ChnOpen(SDADC, SDADC_CH0);	//¿ªÆôÍ¨µÀ0
+		SDADC_ChnClose(SDADC, SDADC_CH2);	//å…³é—­é€šé“2
+		SDADC_ChnOpen(SDADC, SDADC_CH0);	//å¼€å¯é€šé“0
 		break;
 	}
 	SDADC_Open(SDADC);
 	
-	for(i=0;i<1000;i++);			//´ËÑÓÊ±ÊÇ±ØĞëµÄ£¬Ëõ¶ÌºóÓĞ¿ÉÄÜµ¼ÖÂSDADCÎŞ·¨¹¤×÷
+	for(i=0;i<1000;i++);			//æ­¤å»¶æ—¶æ˜¯å¿…é¡»çš„ï¼Œç¼©çŸ­åæœ‰å¯èƒ½å¯¼è‡´SDADCæ— æ³•å·¥ä½œ
 	
-	SDADC_Start(SDADC);				//ÔÙ´ÎÆô¶¯£¬²»¶ÏµÃµ½½á¹û²¢´òÓ¡
+	SDADC_Start(SDADC);				//å†æ¬¡å¯åŠ¨ï¼Œä¸æ–­å¾—åˆ°ç»“æœå¹¶æ‰“å°
 }
 
 void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);		//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);		//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);		//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);		//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -109,12 +109,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

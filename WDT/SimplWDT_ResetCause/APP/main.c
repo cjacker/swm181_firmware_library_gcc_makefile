@@ -10,9 +10,9 @@ int main(void)
 	
 	SerialInit();
 	
-	for(i=0;i<2400000;i++);							//·ÂÕæSWDÎŞ·¨Á¬½Ó
+	for(i=0;i<2400000;i++);							//ä»¿çœŸSWDæ— æ³•è¿æ¥
 	
-	if(SYS->RSTSR & SYS_RSTSR_POR_Msk)		//×¢Òâ£º´ÓÉî¶ÈĞİÃß»½ĞÑÊ±£¬´ËÎ»Ò²»áÖÃÆğ
+	if(SYS->RSTSR & SYS_RSTSR_POR_Msk)		//æ³¨æ„ï¼šä»æ·±åº¦ä¼‘çœ å”¤é†’æ—¶ï¼Œæ­¤ä½ä¹Ÿä¼šç½®èµ·
 	{
 		SYS->RSTSR = SYS_RSTSR_POR_Msk;
 		printf("POR Reset\r\n");
@@ -23,7 +23,7 @@ int main(void)
 		printf("WDT Reset\r\n");
 	}
 	
-	WDT_Init(WDT, SystemCoreClock, WDT_MODE_RESET);	//Ã¿1ÃëÖÓ¸´Î»1´Î
+	WDT_Init(WDT, SystemCoreClock, WDT_MODE_RESET);	//æ¯1ç§’é’Ÿå¤ä½1æ¬¡
 	WDT_Start(WDT);
 	
 	while(1==1)
@@ -37,8 +37,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -52,12 +52,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

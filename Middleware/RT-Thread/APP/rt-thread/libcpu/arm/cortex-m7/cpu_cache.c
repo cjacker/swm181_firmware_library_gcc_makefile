@@ -13,7 +13,7 @@
 #include <rtdef.h>
 #include <board.h>
 
-/* The L1-caches on all Cortex®-M7s are divided into lines of 32 bytes. */
+/* The L1-caches on all Cortex庐-M7s are divided into lines of 32 bytes. */
 #define L1CACHE_LINESIZE_BYTE       (32)
 
 void rt_hw_cpu_icache_enable(void)

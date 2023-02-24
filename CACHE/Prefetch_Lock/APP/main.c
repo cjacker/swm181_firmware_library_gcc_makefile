@@ -8,7 +8,7 @@ int main(void)
 	uint32_t addr, temp;
 	
 	CACHE->CR = (1 << CACHE_CR_RST_Pos) | (CACHE_ALG_LRU << CACHE_CR_ALG_Pos);
-	for(addr = 0; addr < 0x800; addr += 128)	// ½«³ÌÐòÇ°2KËø´æÔÚCacheÖÐ£¬ÔÚ·ÖÉ¢¼ÓÔØÎÄ¼þÖÐ½«ÏòÁ¿±íºÍÖÐ¶Ï·þÎñ³ÌÐò¶¨Î»µ½³ÌÐòµÄÇ°2K
+	for(addr = 0; addr < 0x800; addr += 128)	// å°†ç¨‹åºå‰2Ké”å­˜åœ¨Cacheä¸­ï¼Œåœ¨åˆ†æ•£åŠ è½½æ–‡ä»¶ä¸­å°†å‘é‡è¡¨å’Œä¸­æ–­æœåŠ¡ç¨‹åºå®šä½åˆ°ç¨‹åºçš„å‰2K
 	{
 		temp = CACHE_Prefetch(addr);
 		temp = temp;
@@ -37,8 +37,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒý½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒý½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -52,12 +52,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊýÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼þ¾ä±ú
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜Ž: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®žé™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

@@ -3,17 +3,17 @@
 
 
 typedef struct {
-	uint8_t clk_src;		//ADCת��ʱ��Դ��SDADC_CLKSRC_HRC_DIV8��ADC_CLKSRC_XTAL
-	uint16_t channels;		//ADCת��ͨ��ѡ�У�SDADC_CH0��SDADC_CH1��... ... ��SDADC_CH5������ϣ�������λ�����㣩
-	uint8_t out_cali;		//SDADC_OUT_RAW ADC�����У׼��ת�����    SDADC_OUT_CALIED ADC���У׼���ת�����
-	uint8_t refp_sel;		//SDADC_REFP_AVDD ʹ��AVDD��ΪREFP    SDADC_REFP_REFP ʹ���ⲿREFP��������ΪREFP
-	uint8_t trig_src;		//ADC������ʽ��ADC_TRIGSRC_SW��ADC_TRIGSRC_TIMR3
-	uint8_t Continue;		//����������ģʽ�£�1 ����ת��ģʽ��������һֱ������ת����ֱ���������STARTλ
-							//                  0 ����ת��ģʽ��ת����ɺ�STARTλ�Զ����ֹͣת��
-	uint8_t EOC_IEn;		//EOC�ж�ʹ�ܣ�1 ʹ���ж�    0 ��ֹ�ж�
-	uint8_t OVF_IEn;		//OVF�ж�ʹ�ܣ�1 ʹ���ж�    0 ��ֹ�ж�
-	uint8_t HFULL_IEn;		//FIFO�����ж�ʹ�ܣ�1 ʹ���ж�    0 ��ֹ�ж�
-	uint8_t FULL_IEn;		//FIFO���ж�ʹ�ܣ�1 ʹ���ж�    0 ��ֹ�ж�
+	uint8_t clk_src;		//ADC转换时钟源：SDADC_CLKSRC_HRC_DIV8、ADC_CLKSRC_XTAL
+	uint16_t channels;		//ADC转换通道选中，SDADC_CH0、SDADC_CH1、... ... 、SDADC_CH5及其组合（即“按位或”运算）
+	uint8_t out_cali;		//SDADC_OUT_RAW ADC输出无校准的转换结果    SDADC_OUT_CALIED ADC输出校准后的转换结果
+	uint8_t refp_sel;		//SDADC_REFP_AVDD 使用AVDD作为REFP    SDADC_REFP_REFP 使用外部REFP引脚上作为REFP
+	uint8_t trig_src;		//ADC触发方式：ADC_TRIGSRC_SW、ADC_TRIGSRC_TIMR3
+	uint8_t Continue;		//在软件触发模式下：1 连续转换模式，启动后一直采样、转换，直到软件清除START位
+							//                  0 单次转换模式，转换完成后START位自动清除停止转换
+	uint8_t EOC_IEn;		//EOC中断使能，1 使能中断    0 禁止中断
+	uint8_t OVF_IEn;		//OVF中断使能，1 使能中断    0 禁止中断
+	uint8_t HFULL_IEn;		//FIFO半满中断使能，1 使能中断    0 禁止中断
+	uint8_t FULL_IEn;		//FIFO满中断使能，1 使能中断    0 禁止中断
 } SDADC_InitStructure;
 
 
@@ -26,7 +26,7 @@ typedef struct {
 
 
 #define SDADC_CLKSRC_HRC_DIV8	0
-#define SDADC_CLKSRC_XTAL_DIV8	1	//���ܳ���6MHz
+#define SDADC_CLKSRC_XTAL_DIV8	1	//不能超过6MHz
 
 #define SDADC_OUT_RAW			0
 #define SDADC_OUT_CALIED		1
@@ -34,8 +34,8 @@ typedef struct {
 #define SDADC_REFP_AVDD			0
 #define SDADC_REFP_REFP			1
 
-#define SDADC_TRIGSRC_SW		0	//������������SDADC->STARTд1����ת��
-#define SDADC_TRIGSRC_TIMR3		1	//TIMR3�������ת��
+#define SDADC_TRIGSRC_SW		0	//软件触发，即SDADC->START写1启动转换
+#define SDADC_TRIGSRC_TIMR3		1	//TIMR3溢出启动转换
 
 #define SDADC_CFG_A				0
 #define SDADC_CFG_B				1
@@ -50,9 +50,9 @@ typedef struct {
 #define SDADC_CFG_GAIN_1DIV2	7
 
 
-#define SDADC_CALI_COM_GND			0	//У׼ͨ��������ΪGND
-#define SDADC_CALI_COM_VDD_1DIV2	1	//У׼ͨ��������ΪVDD/2
-#define SDADC_CALI_COM_VDD			2	//У׼ͨ��������ΪVDD
+#define SDADC_CALI_COM_GND			0	//校准通道公共端为GND
+#define SDADC_CALI_COM_VDD_1DIV2	1	//校准通道公共端为VDD/2
+#define SDADC_CALI_COM_VDD			2	//校准通道公共端为VDD
 
 
 void SDADC_Init(SDADC_TypeDef * SDADCx, SDADC_InitStructure * initStruct);

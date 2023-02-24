@@ -5,11 +5,11 @@ int main(void)
 {	
 	SystemInit();
 	
-	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//Êä³ö£¬½ÓLED
+	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//è¾“å‡ºï¼ŒæŽ¥LED
 	
-	GPIO_Init(GPIOA, PIN4, 0, 1, 0, 0);			//ÊäÈë£¬ÉÏÀ­Ê¹ÄÜ£¬½ÓKEY
+	GPIO_Init(GPIOA, PIN4, 0, 1, 0, 0);			//è¾“å…¥ï¼Œä¸Šæ‹‰ä½¿èƒ½ï¼ŒæŽ¥KEY
 	
-	EXTI_Init(GPIOA, PIN4, EXTI_FALL_EDGE);		//ÏÂ½µÑØ´¥·¢ÖÐ¶Ï
+	EXTI_Init(GPIOA, PIN4, EXTI_FALL_EDGE);		//ä¸‹é™æ²¿è§¦å‘ä¸­æ–­
 	
 	IRQ_Connect(IRQ0_15_GPIOA4, IRQ4_IRQ, 2);
 	

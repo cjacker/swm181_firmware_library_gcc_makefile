@@ -10,8 +10,8 @@ void can_slave_init(void)
 {
 	CAN_InitStructure CAN_initStruct;
 	
-	PORT_Init(PORTA, PIN4, FUNMUX_CAN_RX, 1);	//GPIOA.4配置为CAN输入引脚
-	PORT_Init(PORTA, PIN5, FUNMUX_CAN_TX, 0);	//GPIOA.5配置为CAN输出引脚
+	PORT_Init(PORTA, PIN4, FUNMUX_CAN_RX, 1);	//GPIOA.4閰嶇疆涓篊AN杈撳叆寮曡剼
+	PORT_Init(PORTA, PIN5, FUNMUX_CAN_TX, 0);	//GPIOA.5閰嶇疆涓篊AN杈撳嚭寮曡剼
 	
 	CAN_initStruct.Mode = CAN_MODE_NORMAL;
 	CAN_initStruct.CAN_BS1 = CAN_BS1_6tq;

@@ -27,7 +27,7 @@ void TIM3_start(void)
 {
     TIMR_Init(TIMR3, TIMR_MODE_TIMER, 0xC00000, 1);
 	
-	IRQ_Connect(IRQ0_15_TIMR3, IRQ7_IRQ, 2);		//¶¨Ê±Æ÷3ÖÐ¶ÏÁ´½Óµ½IRQ7ÖÐ¶ÏÏß£¬µÍÓÅÏÈ¼¶
+	IRQ_Connect(IRQ0_15_TIMR3, IRQ7_IRQ, 2);		//å®šæ—¶å™¨3ä¸­æ–­é“¾æŽ¥åˆ°IRQ7ä¸­æ–­çº¿ï¼Œä½Žä¼˜å…ˆçº§
 
     TIMR_Start(TIMR3);
 }

@@ -2,7 +2,7 @@
 
 void SerialInit(void);
 
-/* ������͹�������ģʽ��Stopģʽ����ֻ��ͨ��A0�����½��ػ��ѣ����Ѻ�����ͷ��ʼ����ִ�� */
+/* 进入最低功耗休眠模式（Stop模式），只能通过A0引脚下降沿唤醒，唤醒后程序从头开始重新执行 */
 
 int main(void)
 {	
@@ -13,12 +13,12 @@ int main(void)
 	SerialInit();
 // 	printf("Hi from Synwit\r\n");
 	
-	GPIO_Init(GPIOA, PIN4, 1, 0, 0, 0);			//�� LED��ָʾ����ִ��״̬
+	GPIO_Init(GPIOA, PIN4, 1, 0, 0, 0);			//接 LED，指示程序执行状态
 	GPIO_ClrBit(GPIOA, PIN4);
 	for(i = 0; i < 4; i++)
 	{
 		GPIO_InvBit(GPIOA, PIN4);
-		for(j = 0; j < 5000000; j++) __NOP();	//��Ҫע�͵�����ֹ�ϵ����������Stopģʽû��JLink���³���
+		for(j = 0; j < 5000000; j++) __NOP();	//不要注释掉，防止上电后立即进入Stop模式没法JLink更新程序
 	}
 	
 	EnterStopMode();
@@ -33,8 +33,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0����ΪUART0��������
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1����ΪUART0�������
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0配置为UART0输入引脚
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1配置为UART0输出引脚
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -48,12 +48,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: fputc()
-* ����˵��: printf()ʹ�ô˺������ʵ�ʵĴ��ڴ�ӡ����
-* ��    ��: int ch		Ҫ��ӡ���ַ�
-*			FILE *f		�ļ����
-* ��    ��: ��
-* ע������: ��
+* 函数名称: fputc()
+* 功能说明: printf()使用此函数完成实际的串口打印动作
+* 输    入: int ch		要打印的字符
+*			FILE *f		文件句柄
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

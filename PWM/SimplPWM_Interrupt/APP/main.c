@@ -7,12 +7,12 @@ int main(void)
 	
 	SystemInit();
 	
-	GPIO_Init(GPIOA, PIN6, 1, 0, 0, 0);			//��תPA6��ָʾPWM�����ڿ�ʼ�ж�λ��
-	GPIO_Init(GPIOA, PIN7, 1, 0, 0, 0);			//��תPA7��ָʾPWM�ߵ�ƽ�����ж�λ��
+	GPIO_Init(GPIOA, PIN6, 1, 0, 0, 0);			//反转PA6，指示PWM新周期开始中断位置
+	GPIO_Init(GPIOA, PIN7, 1, 0, 0, 0);			//反转PA7，指示PWM高电平结束中断位置
 	
 	PWM_initStruct.clk_div = PWM_CLKDIV_4;		//F_PWM = 24M/4 = 6M
 	
-	PWM_initStruct.mode = PWM_MODE_INDEP;		//A·��B·�������					
+	PWM_initStruct.mode = PWM_MODE_INDEP;		//A路和B路独立输出					
 	PWM_initStruct.cycleA = 10000;				//6M/10000 = 600Hz			
 	PWM_initStruct.hdutyA =  2500;				//2500/10000 = 25%
 	PWM_initStruct.deadzoneA = 10;

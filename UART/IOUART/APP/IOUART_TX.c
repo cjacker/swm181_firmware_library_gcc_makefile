@@ -1,9 +1,9 @@
 /****************************************************************************************************************************************** 
-* ÎÄ¼þÃû³Æ: IOUART_TX.c
-* ¹¦ÄÜËµÃ÷:	GPIOÒý½ÅÄ£ÄâUART·¢ËÍ¹¦ÄÜ
-* ×¢ÒâÊÂÏî: ²¨ÌØÂÊ9600
-* °æ±¾ÈÕÆÚ: 
-* Éý¼¶¼ÇÂ¼: 
+* æ–‡ä»¶åç§°: IOUART_TX.c
+* åŠŸèƒ½è¯´æ˜Ž:	GPIOå¼•è„šæ¨¡æ‹ŸUARTå‘é€åŠŸèƒ½
+* æ³¨æ„äº‹é¡¹: æ³¢ç‰¹çŽ‡9600
+* ç‰ˆæœ¬æ—¥æœŸ: 
+* å‡çº§è®°å½•: 
 *******************************************************************************************************************************************/
 #include "SWM181.h"
 
@@ -27,31 +27,31 @@ static volatile uint32_t BitIdx = 0;
 static volatile uint32_t TxBusy = 0;
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	IOUART_TX_Init()
-* ¹¦ÄÜËµÃ÷: IOUART_TX³õÊ¼»¯
-* Êä    Èë: ÎÞ
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ²¨ÌØÂÊ9600
+* å‡½æ•°åç§°:	IOUART_TX_Init()
+* åŠŸèƒ½è¯´æ˜Ž: IOUART_TXåˆå§‹åŒ–
+* è¾“    å…¥: æ— 
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ³¢ç‰¹çŽ‡9600
 ******************************************************************************************************************************************/
 void IOUART_TX_Init(void)
 {	
-	GPIO_Init(GPIOA, PIN4, 1, 0, 0, 0);			//GPIOA.4³õÊ¼»¯ÎªÊä³ö
+	GPIO_Init(GPIOA, PIN4, 1, 0, 0, 0);			//GPIOA.4åˆå§‹åŒ–ä¸ºè¾“å‡º
 #define UART_TX_LOW()	GPIO_ClrBit(GPIOA, PIN4)
 #define UART_TX_HIGH()	GPIO_SetBit(GPIOA, PIN4)
-	UART_TX_HIGH();								//UART¿ÕÏÐÊ±Êä³ö¸ßµçÆ½
+	UART_TX_HIGH();								//UARTç©ºé—²æ—¶è¾“å‡ºé«˜ç”µå¹³
 	
 	TIMR_Init(TIMR2, TIMR_MODE_TIMER, SystemCoreClock/9600, 1);
 	
-	IRQ_Connect(IRQ0_15_TIMR2, IRQ4_IRQ, 1);	//¶¨Ê±Æ÷2ÖÐ¶ÏÁ´½Óµ½IRQ4ÖÐ¶ÏÏß£¬¸ßÓÅÏÈ¼¶
+	IRQ_Connect(IRQ0_15_TIMR2, IRQ4_IRQ, 1);	//å®šæ—¶å™¨2ä¸­æ–­é“¾æŽ¥åˆ°IRQ4ä¸­æ–­çº¿ï¼Œé«˜ä¼˜å…ˆçº§
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	IOUART_TX_SendChars()
-* ¹¦ÄÜËµÃ÷: IOUART·¢ËÍÖ¸¶¨¸öÊý×Ö·û
-* Êä    Èë: char buff[]		Òª·¢ËÍµÄ×Ö·û
-*			uint32_t size	Òª·¢ËÍµÄ×Ö·ûµÄ¸öÊý
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: Ö»ÄÜÔÚ IOUART_TX_IsBusy() == 0 Ê±·¢ËÍ£¬·ñÔòÖ®Ç°·¢ËÍµÄÄÚÈÝ¿ÉÄÜ·¢ËÍ²»ÍêÈ«
+* å‡½æ•°åç§°:	IOUART_TX_SendChars()
+* åŠŸèƒ½è¯´æ˜Ž: IOUARTå‘é€æŒ‡å®šä¸ªæ•°å­—ç¬¦
+* è¾“    å…¥: char buff[]		è¦å‘é€çš„å­—ç¬¦
+*			uint32_t size	è¦å‘é€çš„å­—ç¬¦çš„ä¸ªæ•°
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: åªèƒ½åœ¨ IOUART_TX_IsBusy() == 0 æ—¶å‘é€ï¼Œå¦åˆ™ä¹‹å‰å‘é€çš„å†…å®¹å¯èƒ½å‘é€ä¸å®Œå…¨
 ******************************************************************************************************************************************/
 void IOUART_TX_SendChars(char buff[], uint32_t size)
 {
@@ -65,11 +65,11 @@ void IOUART_TX_SendChars(char buff[], uint32_t size)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	IOUART_TX_IsBusy()
-* ¹¦ÄÜËµÃ÷: IOUART·ñÕýÔÚ·¢ËÍ
-* Êä    Èë: ÎÞ					
-* Êä    ³ö: uint32_t		1 IOUARTÕýÃ¦ÓÚ·¢ËÍ    0 IOUARTµ±Ç°¿ÕÏÐ£¬¿ÉÒÔ·¢ÆðÐÂµÄ·¢ËÍ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	IOUART_TX_IsBusy()
+* åŠŸèƒ½è¯´æ˜Ž: IOUARTå¦æ­£åœ¨å‘é€
+* è¾“    å…¥: æ— 					
+* è¾“    å‡º: uint32_t		1 IOUARTæ­£å¿™äºŽå‘é€    0 IOUARTå½“å‰ç©ºé—²ï¼Œå¯ä»¥å‘èµ·æ–°çš„å‘é€
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 uint32_t IOUART_TX_IsBusy(void)
 {
@@ -77,15 +77,15 @@ uint32_t IOUART_TX_IsBusy(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	IRQ4_Handler()
-* ¹¦ÄÜËµÃ÷: TIMR2ÖÐ¶Ï·þÎñº¯Êý
-* Êä    Èë: ÎÞ
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	IRQ4_Handler()
+* åŠŸèƒ½è¯´æ˜Ž: TIMR2ä¸­æ–­æœåŠ¡å‡½æ•°
+* è¾“    å…¥: æ— 
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void IRQ4_Handler(void)
 {
-	const uint8_t evenOf1[16] = {1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1};	//ÕûÊý0--15¶ÔÓ¦ÊÇ·ñÓÐÅ¼Êý¸ö'1'
+	const uint8_t evenOf1[16] = {1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1};	//æ•´æ•°0--15å¯¹åº”æ˜¯å¦æœ‰å¶æ•°ä¸ª'1'
 	
 	if(TIMR_INTStat(TIMR2))
 	{
@@ -95,7 +95,7 @@ void IRQ4_Handler(void)
 		{
 			if(BitIdx == 0)
 			{
-				UART_TX_LOW();				//ÆðÊ¼Î»
+				UART_TX_LOW();				//èµ·å§‹ä½
 			}
 			else if(BitIdx < 9)
 			{
@@ -110,7 +110,7 @@ void IRQ4_Handler(void)
 	#else //IOUART_STOP == IOUART_STOP_2
 			else if(BitIdx == 9)
 			{
-				UART_TX_HIGH();				//Í£Ö¹Î»
+				UART_TX_HIGH();				//åœæ­¢ä½
 			}
 			else if(BitIdx == 10)
 	#endif
@@ -119,10 +119,10 @@ void IRQ4_Handler(void)
 			{
 	#if(IOUART_PARITY == IOUART_PARITY_EVEN)
 				if(((evenOf1[TxBuff[ChrIdx] & 0xF] == 1) && (evenOf1[(TxBuff[ChrIdx] >> 4) & 0xF] == 1)) || 
-				   ((evenOf1[TxBuff[ChrIdx] & 0xF] == 0) && (evenOf1[(TxBuff[ChrIdx] >> 4) & 0xF] == 0)))	// Å¼Êý¸ö1
+				   ((evenOf1[TxBuff[ChrIdx] & 0xF] == 0) && (evenOf1[(TxBuff[ChrIdx] >> 4) & 0xF] == 0)))	// å¶æ•°ä¸ª1
 	#else //IOUART_PARITY == IOUART_PARITY_ODD
 				if(((evenOf1[TxBuff[ChrIdx] & 0xF] == 0) && (evenOf1[(TxBuff[ChrIdx] >> 4) & 0xF] == 1)) || 
-				   ((evenOf1[TxBuff[ChrIdx] & 0xF] == 1) && (evenOf1[(TxBuff[ChrIdx] >> 4) & 0xF] == 0)))	// ÆæÊý¸ö1
+				   ((evenOf1[TxBuff[ChrIdx] & 0xF] == 1) && (evenOf1[(TxBuff[ChrIdx] >> 4) & 0xF] == 0)))	// å¥‡æ•°ä¸ª1
 	#endif
 					UART_TX_LOW();
 				else
@@ -133,20 +133,20 @@ void IRQ4_Handler(void)
 	#else //IOUART_STOP == IOUART_STOP_2
 			else if(BitIdx == 10)
 			{
-				UART_TX_HIGH();				//Í£Ö¹Î»
+				UART_TX_HIGH();				//åœæ­¢ä½
 			}
 			else if(BitIdx == 11)
 	#endif
 #endif
 			{
-				UART_TX_HIGH();				//Í£Ö¹Î»
+				UART_TX_HIGH();				//åœæ­¢ä½
 				
 				ChrIdx++;
 				if(ChrIdx < ChrCnt)
 				{
 					BitIdx = 0;
 					
-					goto T3Svr_End;		//Ìø¹ý¡°BitIdx++¡±£¬·ñÔò·¢²»³öÆðÊ¼Î»
+					goto T3Svr_End;		//è·³è¿‡â€œBitIdx++â€ï¼Œå¦åˆ™å‘ä¸å‡ºèµ·å§‹ä½
 				}
 				else
 				{

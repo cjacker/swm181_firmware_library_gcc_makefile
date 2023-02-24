@@ -15,8 +15,8 @@ int main(void)
 	
 	SerialInit();
 	
-   	PORT_Init(PORTA, PIN4, FUNMUX_CAN_RX, 1);	//GPIOA.4ÅäÖÃÎªCANÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN5, FUNMUX_CAN_TX, 0);	//GPIOA.5ÅäÖÃÎªCANÊä³öÒı½Å
+   	PORT_Init(PORTA, PIN4, FUNMUX_CAN_RX, 1);	//GPIOA.4é…ç½®ä¸ºCANè¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN5, FUNMUX_CAN_TX, 0);	//GPIOA.5é…ç½®ä¸ºCANè¾“å‡ºå¼•è„š
 	
 	CAN_initStruct.Mode = CAN_MODE_NORMAL;
 	CAN_initStruct.CAN_BS1 = CAN_BS1_4tq;
@@ -26,27 +26,27 @@ int main(void)
 	CAN_initStruct.FilterMode = CAN_FILTER_32b;
 	switch(0)
 	{
-	case 0:		// ½ÓÊÕIDÎªÈÎÒâÖµµÄÖ¡
+	case 0:		// æ¥æ”¶IDä¸ºä»»æ„å€¼çš„å¸§
 		CAN_initStruct.FilterMask32b  = 0xFFFFFFFF;				// 0 must match    1 don't care
 		CAN_initStruct.FilterCheck32b = 0xFFFFFFFF;
 		break;
 	
-	case 1:		// ½ÓÊÕIDÎª0x122µÄ±ê×¼Ö¡
+	case 1:		// æ¥æ”¶IDä¸º0x122çš„æ ‡å‡†å¸§
 		CAN_initStruct.FilterMask32b = ~(0x7FFu << 21);
-		CAN_initStruct.FilterCheck32b = (0x122  << 21);			// ±ê×¼Ö¡IDÔÚµÚ21Î»µ½31Î»£¬Ïê¼ûÊÖ²á
+		CAN_initStruct.FilterCheck32b = (0x122  << 21);			// æ ‡å‡†å¸§IDåœ¨ç¬¬21ä½åˆ°31ä½ï¼Œè¯¦è§æ‰‹å†Œ
 		break;
 	
-	case 2:		// ½ÓÊÕIDÎª0x122µÄÀ©Õ¹Ö¡
+	case 2:		// æ¥æ”¶IDä¸º0x122çš„æ‰©å±•å¸§
 		CAN_initStruct.FilterMask32b = ~(0x1FFFFFFFu << 3);
-		CAN_initStruct.FilterCheck32b = (0x00000122  << 3);		// À©Õ¹Ö¡IDÔÚµÚ 3Î»µ½31Î»£¬Ïê¼ûÊÖ²á
+		CAN_initStruct.FilterCheck32b = (0x00000122  << 3);		// æ‰©å±•å¸§IDåœ¨ç¬¬ 3ä½åˆ°31ä½ï¼Œè¯¦è§æ‰‹å†Œ
 		break;
 	
-	case 3:		// ½ÓÊÕIDÎª0x12XµÄ±ê×¼Ö¡£¬X±íÊ¾IDµÄµÍ4Î»ÊÇÊ²Ã´ÖµÎŞËùÎ½
+	case 3:		// æ¥æ”¶IDä¸º0x12Xçš„æ ‡å‡†å¸§ï¼ŒXè¡¨ç¤ºIDçš„ä½4ä½æ˜¯ä»€ä¹ˆå€¼æ— æ‰€è°“
 		CAN_initStruct.FilterMask32b = ~(0x7F0u << 21);
 		CAN_initStruct.FilterCheck32b = (0x122  << 21);
 		break;
 	
-	case 4:		// ½ÓÊÕIDÎª0x122ºÍ0x101µÄ±ê×¼Ö¡
+	case 4:		// æ¥æ”¶IDä¸º0x122å’Œ0x101çš„æ ‡å‡†å¸§
 		CAN_initStruct.FilterMode = CAN_FILTER_16b;
 		CAN_initStruct.FilterMask16b1 = (uint16_t)~(0x7FFu << 5);
 		CAN_initStruct.FilterCheck16b1 = (0x122  << 5);
@@ -54,14 +54,14 @@ int main(void)
 		CAN_initStruct.FilterCheck16b2 = (0x101  << 5);
 		break;
 	
-	case 5:		// ¼´½ÓÊÕIDÎª0x122¡¢0x235¡¢0x450µÄ±ê×¼Ö¡£¬Ò²½ÓÊÕIDÎª0x101, 0x235, 0x1780µÄÀ©Õ¹Ö¡
-		{		// ²¢²»ÊÇÖ»½ÓÊÕIDÎªÕâ6¸öÖµµÄÖ¡£¬¶øÊÇ½ÓÊÕ¾¡Á¿×îÉÙµÄÖ¡¡¢ÇÒÄÜ±£Ö¤IDÎªÒªÇóÖµµÄÖ¡¶¼ÄÜ½ÓÊÕµ½
+	case 5:		// å³æ¥æ”¶IDä¸º0x122ã€0x235ã€0x450çš„æ ‡å‡†å¸§ï¼Œä¹Ÿæ¥æ”¶IDä¸º0x101, 0x235, 0x1780çš„æ‰©å±•å¸§
+		{		// å¹¶ä¸æ˜¯åªæ¥æ”¶IDä¸ºè¿™6ä¸ªå€¼çš„å¸§ï¼Œè€Œæ˜¯æ¥æ”¶å°½é‡æœ€å°‘çš„å¸§ã€ä¸”èƒ½ä¿è¯IDä¸ºè¦æ±‚å€¼çš„å¸§éƒ½èƒ½æ¥æ”¶åˆ°
 		uint32_t stdID[] = {0x122, 0x235, 0x450};
 		uint32_t extID[] = {0x101, 0x235, 0x1780};
 		
 		CAN_initStruct.FilterMask32b = ~(sameBits(stdID, 3, extID, 3) << 3);
 		CAN_initStruct.FilterCheck32b = (extID[0]  << 3);
-		// »òÕß£º
+		// æˆ–è€…ï¼š
 // 		CAN_initStruct.FilterCheck32b = (stdID[0]  << 21);
 		}
 		break;
@@ -87,7 +87,7 @@ int main(void)
 			
 			CAN_RXMsg.size = 0;
 		}
-		else if(CAN_RXMsg.remote == 1)	//Ô¶³ÌÖ¡
+		else if(CAN_RXMsg.remote == 1)	//è¿œç¨‹å¸§
 		{
 			printf("\r\nReceive %s Remote Request", CAN_RXMsg.format == CAN_FRAME_STD ? "STD" : "EXT");
 			
@@ -107,11 +107,11 @@ void IRQ5_Handler(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: sameBits()
-* ¹¦ÄÜËµÃ÷: ÕÒµ½ËùÓĞIDÖĞÏàÍ¬Î»ÖÃÖµÏàÍ¬µÄÎ»£¬±ÈÈçËùÓĞIDµÄµÚ10Î»¶¼ÊÇ0£¨»ò1£©Ôò·µ»ØÖµµÄµÚ10Î»Îª1
-* Êä    Èë: 
-* Êä    ³ö: 
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: sameBits()
+* åŠŸèƒ½è¯´æ˜: æ‰¾åˆ°æ‰€æœ‰IDä¸­ç›¸åŒä½ç½®å€¼ç›¸åŒçš„ä½ï¼Œæ¯”å¦‚æ‰€æœ‰IDçš„ç¬¬10ä½éƒ½æ˜¯0ï¼ˆæˆ–1ï¼‰åˆ™è¿”å›å€¼çš„ç¬¬10ä½ä¸º1
+* è¾“    å…¥: 
+* è¾“    å‡º: 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 uint32_t sameBits(uint32_t std_id[], uint32_t std_n, uint32_t ext_id[], uint32_t ext_n)
 {
@@ -146,8 +146,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -161,12 +161,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

@@ -7,13 +7,13 @@
 #define CMP2	2
 
 
-void CMP_Init(uint32_t CMPx, uint32_t inp_ex, uint32_t isHYS, uint32_t int_en);	//CMPÄ£Äâ±È½ÏÆ÷³õÊ¼»¯
-void CMP_Open(uint32_t CMPx);						//¿ªÆô±È½ÏÆ÷
-void CMP_Close(uint32_t CMPx);						//¹Ø±Õ±È½ÏÆ÷
+void CMP_Init(uint32_t CMPx, uint32_t inp_ex, uint32_t isHYS, uint32_t int_en);	//CMPæ¨¡æ‹Ÿæ¯”è¾ƒå™¨åˆå§‹åŒ–
+void CMP_Open(uint32_t CMPx);						//å¼€å¯æ¯”è¾ƒå™¨
+void CMP_Close(uint32_t CMPx);						//å…³é—­æ¯”è¾ƒå™¨
 
 uint32_t CMP_Output(uint32_t CMPx);
 
-void CMP_SetVRef(uint32_t volt);					//ÉèÖÃÄÚ²¿²Î¿¼µçÑ¹
+void CMP_SetVRef(uint32_t volt);					//è®¾ç½®å†…éƒ¨å‚è€ƒç”µå‹
 
 #define CMP_VREF_0V30	0
 #define CMP_VREF_0V45	1

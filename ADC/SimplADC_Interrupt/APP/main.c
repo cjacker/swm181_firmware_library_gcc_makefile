@@ -23,15 +23,15 @@ int main(void)
 	ADC_initStruct.channels = ADC_CH7;
 	ADC_initStruct.samplAvg = ADC_AVG_SAMPLE1;
 	ADC_initStruct.trig_src = ADC_TRIGSRC_SW;
-	ADC_initStruct.Continue = 0;					//·ÇÁ¬ĞøÄ£Ê½£¬¼´µ¥´ÎÄ£Ê½
+	ADC_initStruct.Continue = 0;					//éè¿ç»­æ¨¡å¼ï¼Œå³å•æ¬¡æ¨¡å¼
 	ADC_initStruct.EOC_IEn = ADC_CH7;
 	ADC_initStruct.OVF_IEn = 0;
-	ADC_Init(ADC, &ADC_initStruct);					//ÅäÖÃADC
+	ADC_Init(ADC, &ADC_initStruct);					//é…ç½®ADC
 	
 	IRQ_Connect(IRQ0_15_ADC, IRQ5_IRQ, 1);
 	
-	ADC_Open(ADC);									//Ê¹ÄÜADC
-	ADC_Start(ADC);									//Æô¶¯ADC£¬¿ªÊ¼×ª»»
+	ADC_Open(ADC);									//ä½¿èƒ½ADC
+	ADC_Start(ADC);									//å¯åŠ¨ADCï¼Œå¼€å§‹è½¬æ¢
 	
 	while(1==1)
 	{
@@ -42,9 +42,9 @@ void IRQ5_Handler(void)
 {	
 	printf("%4d,", ADC_Read(ADC, ADC_CH7));
 	
-	ADC_IntEOCClr(ADC, ADC_CH7);	//Çå³ıÖĞ¶Ï±êÖ¾
+	ADC_IntEOCClr(ADC, ADC_CH7);	//æ¸…é™¤ä¸­æ–­æ ‡å¿—
 	
-	ADC_Start(ADC);					//ÔÙ´ÎÆô¶¯£¬²»¶ÏµÃµ½½á¹û²¢´òÓ¡
+	ADC_Start(ADC);					//å†æ¬¡å¯åŠ¨ï¼Œä¸æ–­å¾—åˆ°ç»“æœå¹¶æ‰“å°
 }
 
 
@@ -52,8 +52,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -68,12 +68,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

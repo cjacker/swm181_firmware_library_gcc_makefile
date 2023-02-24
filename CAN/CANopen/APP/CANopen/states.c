@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ** @brief
 **
 **
-*/																						//ÐÞ¸Ä£º»ÆÔÚÌÎ  RtcSetTimerº¯Êý×¢ÊÍ
+*/																						//ä¿®æ”¹ï¼šé»„åœ¨æ¶›  RtcSetTimerå‡½æ•°æ³¨é‡Š
 #include "data.h"
 #include "sysdep.h"
 //#include "bsp_USART.h"
@@ -88,7 +88,7 @@ void canDispatch(CO_Data* d, Message *m)
 	unsigned short indexbuf =(((unsigned short)(m->data[2])<<8)|(unsigned short)(m->data[1]));
 	unsigned char cs=m->data[0];
 
-	 switch(cob_id >> 7)//¹¦ÄÜÂë
+	 switch(cob_id >> 7)//åŠŸèƒ½ç 
 	{
 		case SYNC:		/* can be a SYNC or a EMCY message */
 			if(cob_id == 0x080)	/* SYNC */
@@ -114,7 +114,7 @@ void canDispatch(CO_Data* d, Message *m)
 				
 				proceedPDO(d,m);
 				if(cob_id==TestSlave_obj1400_COB_ID_used_by_PDO)
-					/* ÐÞ¸Ä£º»ÆÔÚÌÎ£¬ Ã»ÓÐÊµÏÖ´ËRtcSetTimerº¯Êý */
+					/* ä¿®æ”¹ï¼šé»„åœ¨æ¶›ï¼Œ æ²¡æœ‰å®žçŽ°æ­¤RtcSetTimerå‡½æ•° */
 					{
 						//RtcSetTimer(RTCBatteryTime);
 					}
@@ -126,20 +126,20 @@ void canDispatch(CO_Data* d, Message *m)
 				
 					
 		case SDOrx:
-		//BE 1B 51 52  µÍÎ»ÔÚÇ°£¬2013Äê10ÔÂ6ÈÕ16Ê±13·Ö50Ãë
+		//BE 1B 51 52  ä½Žä½åœ¨å‰ï¼Œ2013å¹´10æœˆ6æ—¥16æ—¶13åˆ†50ç§’
 			
 				if (d->CurrentCommunicationState.csSDO)
 				{
 					if(((cs>>5)==INITIATE_UPLOAD_REQUEST)&&(indexbuf==0x2a18))
-					{RTCBatteryTime=0;  }//¶ÁRTC Ê±¼ä++
+					{RTCBatteryTime=0;  }//è¯»RTC æ—¶é—´++
 					
-					proceedSDO(d,m);  //smile Ëµ£ºÕâ¸öÁô×Å£¬²»ÄÜ×¢ÊÍ
+					proceedSDO(d,m);  //smile è¯´ï¼šè¿™ä¸ªç•™ç€ï¼Œä¸èƒ½æ³¨é‡Š
 					
 					if(((cs>>5)==INITIATE_DOWNLOAD_REQUEST)&&(indexbuf==0x2a18))
 					{
-						/* ÐÞ¸Ä£º»ÆÔÚÌÎ£¬ Ã»ÓÐÊµÏÖ´ËRtcSetTimerº¯Êý */
+						/* ä¿®æ”¹ï¼šé»„åœ¨æ¶›ï¼Œ æ²¡æœ‰å®žçŽ°æ­¤RtcSetTimerå‡½æ•° */
 						//RtcSetTimer(RTCBatteryTime);  
-					}//Ð´RTCÊ±¼ä++
+					}//å†™RTCæ—¶é—´++
 				}
 				
 			//	Cmd(m);

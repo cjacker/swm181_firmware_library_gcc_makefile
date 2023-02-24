@@ -21,7 +21,7 @@ int main(void)
 	GD25Q21_Init();
 	
 	GD25Q21_EraseSector(EEPROM_ADDR);
- 	while(GD25Q21_IsBusy()) __NOP();	// µÈ´ı²Á³ı²Ù×÷Íê³É
+ 	while(GD25Q21_IsBusy()) __NOP();	// ç­‰å¾…æ“¦é™¤æ“ä½œå®Œæˆ
 	
 	GD25Q21_ReadData(EEPROM_ADDR, RdBuff, 20);
 	
@@ -29,7 +29,7 @@ int main(void)
 	for(i = 0; i < 20; i++) printf("0x%X, ", RdBuff[i]);
 	
 	GD25Q21_WritePage(EEPROM_ADDR, WrBuff, 20);
- 	while(GD25Q21_IsBusy()) __NOP();	// µÈ´ıĞ´Èë²Ù×÷Íê³É
+ 	while(GD25Q21_IsBusy()) __NOP();	// ç­‰å¾…å†™å…¥æ“ä½œå®Œæˆ
 	
 	GD25Q21_ReadData(EEPROM_ADDR, RdBuff, 20);
 	
@@ -46,8 +46,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -61,12 +61,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

@@ -2,11 +2,11 @@
 #define __SWM181_CACHE_H__
 
 typedef struct {
-	uint8_t  Alg;			//Cache算法，可取值CACHE_ALG_LRU、CACHE_ALG_RAND
+	uint8_t  Alg;			//Cache绠楁硶锛屽彲鍙栧�糃ACHE_ALG_LRU銆丆ACHE_ALG_RAND
 	
-	uint8_t  Threshold;		//当被LOCK的SLOT个数大于Threshold时触发Reset中断
+	uint8_t  Threshold;		//褰撹LOCK鐨凷LOT涓暟澶т簬Threshold鏃惰Е鍙慠eset涓柇
 	
-	uint8_t  ResetIEn;		//当LOCKCNT > LOCKTHR时触发Reset中断，中断处理函数需要执行CACHE->CR.RST = 1复位CACHE
+	uint8_t  ResetIEn;		//褰揕OCKCNT > LOCKTHR鏃惰Е鍙慠eset涓柇锛屼腑鏂鐞嗗嚱鏁伴渶瑕佹墽琛孋ACHE->CR.RST = 1澶嶄綅CACHE
 } CACHE_InitStructure;
 
 #define CACHE_ALG_LRU	0

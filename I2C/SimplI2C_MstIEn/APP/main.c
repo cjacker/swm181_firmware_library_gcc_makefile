@@ -11,9 +11,9 @@ char slv_rxbuff[4] = {0};
 
 uint32_t mst_txlen, mst_rxlen;
 
-uint32_t mst_rxoper;	// 1 Ω” ’≤Ÿ◊˜   0 ∑¢ÀÕ≤Ÿ◊˜
+uint32_t mst_rxoper;	// 1 Êé•Êî∂Êìç‰Ωú   0 ÂèëÈÄÅÊìç‰Ωú
 
-volatile uint32_t mst_rxnack;	// 1 Ω” ’µΩNAK
+volatile uint32_t mst_rxnack;	// 1 Êé•Êî∂Âà∞NAK
 
 volatile uint32_t mst_txindx = 0;
 volatile uint32_t mst_rxindx = 0;
@@ -37,7 +37,7 @@ int main(void)
 	I2C_Mst_Init();
 	I2C_Slv_Init();
 	
-	GPIO_Init(GPIOA, PIN8, 1, 0, 0, 0);	// µ˜ ‘∏®÷˙”√
+	GPIO_Init(GPIOA, PIN8, 1, 0, 0, 0);	// Ë∞ÉËØïËæÖÂä©Áî®
 	
 	while(1==1)
 	{
@@ -46,7 +46,7 @@ int main(void)
 		
 		I2C_Mst_Send(SLV_ADDR, (uint8_t *)mst_txbuff, 4);
 		
-		while(mst_txindx != mst_txlen + 2)	// µ»¥˝∑¢ÀÕÕÍ≥…
+		while(mst_txindx != mst_txlen + 2)	// Á≠âÂæÖÂèëÈÄÅÂÆåÊàê
 		{
 			if(mst_rxnack)
 			{
@@ -64,7 +64,7 @@ int main(void)
 		
 		I2C_Mst_Recv(SLV_ADDR, 4);
 		
-		while(mst_rxindx != mst_rxlen + 1)	// µ»¥˝Ω” ’ÕÍ≥…
+		while(mst_rxindx != mst_rxlen + 1)	// Á≠âÂæÖÊé•Êî∂ÂÆåÊàê
 		{
 			if(mst_rxnack)
 			{
@@ -82,7 +82,7 @@ int main(void)
 
 nextloop:
 		I2C0->MSTCMD = (1 << I2C_MSTCMD_STO_Pos);
-		while(I2C0->MSTCMD & I2C_MSTCMD_TIP_Msk) ;	//µ»¥˝∑¢ÀÕÕÍ≥…
+		while(I2C0->MSTCMD & I2C_MSTCMD_TIP_Msk) ;	//Á≠âÂæÖÂèëÈÄÅÂÆåÊàê
 		for(i = 0; i < 10000000; i++) ;
 	}
 }
@@ -91,12 +91,12 @@ void I2C_Mst_Init(void)
 {
 	I2C_InitStructure I2C_initStruct;
 	
-	PORT_Init(PORTA, PIN4, FUNMUX_I2C0_SCL, 1);		//GPIOA.4≈‰÷√Œ™I2C0 SCL“˝Ω≈
-	PORTA->OPEND |= (1 << PIN4);					//ø™¬©
-	PORTA->PULLU |= (1 << PIN4);					//…œ¿≠
-	PORT_Init(PORTA, PIN5, FUNMUX_I2C0_SDA, 1);		//GPIOA.5≈‰÷√Œ™I2C0 SDA“˝Ω≈
-	PORTA->OPEND |= (1 << PIN5);					//ø™¬©
-	PORTA->PULLU |= (1 << PIN5);					//…œ¿≠
+	PORT_Init(PORTA, PIN4, FUNMUX_I2C0_SCL, 1);		//GPIOA.4ÈÖçÁΩÆ‰∏∫I2C0 SCLÂºïËÑö
+	PORTA->OPEND |= (1 << PIN4);					//ÂºÄÊºè
+	PORTA->PULLU |= (1 << PIN4);					//‰∏äÊãâ
+	PORT_Init(PORTA, PIN5, FUNMUX_I2C0_SDA, 1);		//GPIOA.5ÈÖçÁΩÆ‰∏∫I2C0 SDAÂºïËÑö
+	PORTA->OPEND |= (1 << PIN5);					//ÂºÄÊºè
+	PORTA->PULLU |= (1 << PIN5);					//‰∏äÊãâ
 	
 	I2C_initStruct.Master = 1;
 	I2C_initStruct.Addr7b = 1;
@@ -126,7 +126,7 @@ void I2C_Mst_Send(uint8_t addr, uint8_t *data, uint32_t len)
 	
 	I2C0->MSTDAT = (addr << 1) | 0;
 	I2C0->MSTCMD = (1 << I2C_MSTCMD_STA_Pos) |		
-				   (1 << I2C_MSTCMD_WR_Pos);	//∑¢ÀÕ∆ ºŒª∫Õ¥”ª˙µÿ÷∑
+				   (1 << I2C_MSTCMD_WR_Pos);	//ÂèëÈÄÅËµ∑Âßã‰ΩçÂíå‰ªéÊú∫Âú∞ÂùÄ
 }
 
 void I2C_Mst_Recv(uint8_t addr, uint32_t len)
@@ -141,14 +141,14 @@ void I2C_Mst_Recv(uint8_t addr, uint32_t len)
 	
 	I2C0->MSTDAT = (addr << 1) | 1;
 	I2C0->MSTCMD = (1 << I2C_MSTCMD_STA_Pos) |		
-				   (1 << I2C_MSTCMD_WR_Pos);	//∑¢ÀÕ∆ ºŒª∫Õ¥”ª˙µÿ÷∑
+				   (1 << I2C_MSTCMD_WR_Pos);	//ÂèëÈÄÅËµ∑Âßã‰ΩçÂíå‰ªéÊú∫Âú∞ÂùÄ
 }
 
 void IRQ3_Handler(void)
 {	
-	I2C0->MSTCMD = (1 << I2C_MSTCMD_IF_Pos);	// ◊¢“‚£∫≤ªƒ‹”√°∞|=°±£¨“ÚŒ™busyŒªª·µº÷¬∑¢ÀÕSTOP
+	I2C0->MSTCMD = (1 << I2C_MSTCMD_IF_Pos);	// Ê≥®ÊÑèÔºö‰∏çËÉΩÁî®‚Äú|=‚ÄùÔºåÂõ†‰∏∫busy‰Ωç‰ºöÂØºËá¥ÂèëÈÄÅSTOP
 	GPIO_InvBit(GPIOA, PIN8);
-	if(mst_rxoper)	// Ω” ’≤Ÿ◊˜
+	if(mst_rxoper)	// Êé•Êî∂Êìç‰Ωú
 	{
 		if(mst_rxindx == 0)
 		{
@@ -175,7 +175,7 @@ void IRQ3_Handler(void)
 			
 			I2C0->MSTCMD = (1 << I2C_MSTCMD_RD_Pos)  |
 						   (1 << I2C_MSTCMD_ACK_Pos) |
-					       (1 << I2C_MSTCMD_STO_Pos);		//∂¡»° ˝æ›°¢∑¢ÀÕNACKœÏ”¶£¨ÕÍ≥…∫Û∑¢ÀÕSTOP
+					       (1 << I2C_MSTCMD_STO_Pos);		//ËØªÂèñÊï∞ÊçÆ„ÄÅÂèëÈÄÅNACKÂìçÂ∫îÔºåÂÆåÊàêÂêéÂèëÈÄÅSTOP
 		}
 		else if(mst_rxindx == mst_rxlen)
 		{
@@ -184,7 +184,7 @@ void IRQ3_Handler(void)
 		
 		mst_rxindx++;
 	}
-	else			// ∑¢ÀÕ≤Ÿ◊˜
+	else			// ÂèëÈÄÅÊìç‰Ωú
 	{
 		if(I2C0->MSTCMD & I2C_MSTCMD_RXACK_Msk)
 		{
@@ -211,12 +211,12 @@ void I2C_Slv_Init(void)
 {
 	I2C_InitStructure I2C_initStruct;
 	
-	PORT_Init(PORTA, PIN6, FUNMUX_I2C1_SCL, 1);		//GPIOA.6≈‰÷√Œ™I2C1 SCL“˝Ω≈
-	PORTA->OPEND |= (1 << PIN6);					//ø™¬©
-	PORTA->PULLU |= (1 << PIN6);					//…œ¿≠
-	PORT_Init(PORTA, PIN7, FUNMUX_I2C1_SDA, 1);		//GPIOA.7≈‰÷√Œ™I2C1 SDA“˝Ω≈
-	PORTA->OPEND |= (1 << PIN7);					//ø™¬©
-	PORTA->PULLU |= (1 << PIN7);					//…œ¿≠
+	PORT_Init(PORTA, PIN6, FUNMUX_I2C1_SCL, 1);		//GPIOA.6ÈÖçÁΩÆ‰∏∫I2C1 SCLÂºïËÑö
+	PORTA->OPEND |= (1 << PIN6);					//ÂºÄÊºè
+	PORTA->PULLU |= (1 << PIN6);					//‰∏äÊãâ
+	PORT_Init(PORTA, PIN7, FUNMUX_I2C1_SDA, 1);		//GPIOA.7ÈÖçÁΩÆ‰∏∫I2C1 SDAÂºïËÑö
+	PORTA->OPEND |= (1 << PIN7);					//ÂºÄÊºè
+	PORTA->PULLU |= (1 << PIN7);					//‰∏äÊãâ
 	
 	I2C_initStruct.Master = 0;
 	I2C_initStruct.Addr7b = 1;
@@ -238,38 +238,38 @@ void I2C_Slv_Init(void)
 
 void IRQ4_Handler(void)
 {
-	if(I2C1->SLVIF & I2C_SLVIF_STADET_Msk)				// ’µΩ∆ ºŒª
+	if(I2C1->SLVIF & I2C_SLVIF_STADET_Msk)				//Êî∂Âà∞Ëµ∑Âßã‰Ωç
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_STADET_Pos);
 		
 		I2C1->SLVTX = slv_txbuff[0];
 		slv_txindx = 1;
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_STODET_Msk)			// ’µΩÕ£÷πŒª
+	else if(I2C1->SLVIF & I2C_SLVIF_STODET_Msk)			//Êî∂Âà∞ÂÅúÊ≠¢‰Ωç
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_STODET_Pos);
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_WRREQ_Msk)			// ’µΩ–¥«Î«Û
+	else if(I2C1->SLVIF & I2C_SLVIF_WRREQ_Msk)			//Êî∂Âà∞ÂÜôËØ∑Ê±Ç
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_WRREQ_Pos);
 		
 		slv_rxindx = 0;
 		I2C1->SLVCR |= (1 << I2C_SLVCR_ACK_Pos);
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_RXEND_Msk)			//Ω” ’ÕÍ≥…
+	else if(I2C1->SLVIF & I2C_SLVIF_RXEND_Msk)			//Êé•Êî∂ÂÆåÊàê
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_RXEND_Pos);
 		
 		slv_rxbuff[slv_rxindx] = I2C1->SLVRX;
 		if(slv_rxindx < 3) slv_rxindx++;
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_RDREQ_Msk)			// ’µΩ∂¡«Î«Û
+	else if(I2C1->SLVIF & I2C_SLVIF_RDREQ_Msk)			//Êî∂Âà∞ËØªËØ∑Ê±Ç
 	{		
 		I2C1->SLVIF = (1 << I2C_SLVIF_RDREQ_Pos);
 		
-		// ’µΩ∂¡«Î«Û∫Ûª·¡¢º¥∞—SLVTX÷–µƒ÷µ∑¢ÀÕ≥ˆ»•£¨∂¯≤ª «µ»¥˝»Ìº˛–¥»Î∫Û‘Ÿ∑¢ÀÕ£ªÀ˘“‘Ω´µ⁄“ª∏ˆ ˝æ›–¥»ÎSLVTX÷ªƒ‹Ã·«∞µΩ°∞ ’µΩ∆ ºŒª°±
+		//Êî∂Âà∞ËØªËØ∑Ê±ÇÂêé‰ºöÁ´ãÂç≥ÊääSLVTX‰∏≠ÁöÑÂÄºÂèëÈÄÅÂá∫ÂéªÔºåËÄå‰∏çÊòØÁ≠âÂæÖËΩØ‰ª∂ÂÜôÂÖ•ÂêéÂÜçÂèëÈÄÅÔºõÊâÄ‰ª•Â∞ÜÁ¨¨‰∏Ä‰∏™Êï∞ÊçÆÂÜôÂÖ•SLVTXÂè™ËÉΩÊèêÂâçÂà∞‚ÄúÊî∂Âà∞Ëµ∑Âßã‰Ωç‚Äù
 	}
-	else if(I2C1->SLVIF & I2C_SLVIF_TXEND_Msk)			//∑¢ÀÕÕÍ≥…
+	else if(I2C1->SLVIF & I2C_SLVIF_TXEND_Msk)			//ÂèëÈÄÅÂÆåÊàê
 	{
 		I2C1->SLVIF = (1 << I2C_SLVIF_TXEND_Pos);
 		
@@ -283,8 +283,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0≈‰÷√Œ™UART0 ‰»Î“˝Ω≈
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1≈‰÷√Œ™UART0 ‰≥ˆ“˝Ω≈
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÈÖçÁΩÆ‰∏∫UART0ËæìÂÖ•ÂºïËÑö
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÈÖçÁΩÆ‰∏∫UART0ËæìÂá∫ÂºïËÑö
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -299,12 +299,12 @@ void SerialInit(void)
 
 
 /****************************************************************************************************************************************** 
-* ∫Ø ˝√˚≥∆: fputc()
-* π¶ƒ‹Àµ√˜: printf() π”√¥À∫Ø ˝ÕÍ≥… µº µƒ¥Æø⁄¥Ú”°∂Ø◊˜
-*  ‰    »Î: int ch		“™¥Ú”°µƒ◊÷∑˚
-*			FILE *f		Œƒº˛æ‰±˙
-*  ‰    ≥ˆ: Œﬁ
-* ◊¢“‚ ¬œÓ: Œﬁ
+* ÂáΩÊï∞ÂêçÁß∞: fputc()
+* ÂäüËÉΩËØ¥Êòé: printf()‰ΩøÁî®Ê≠§ÂáΩÊï∞ÂÆåÊàêÂÆûÈôÖÁöÑ‰∏≤Âè£ÊâìÂç∞Âä®‰Ωú
+* Ëæì    ÂÖ•: int ch		Ë¶ÅÊâìÂç∞ÁöÑÂ≠óÁ¨¶
+*			FILE *f		Êñá‰ª∂Âè•ÊüÑ
+* Ëæì    Âá∫: Êó†
+* Ê≥®ÊÑè‰∫ãÈ°π: Êó†
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

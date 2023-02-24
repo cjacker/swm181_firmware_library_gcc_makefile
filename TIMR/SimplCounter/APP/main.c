@@ -9,9 +9,9 @@ int main(void)
 	
 	PORT_Init(PORTA, PIN7, FUNMUX_TIMR2_IN, 1);
 	
-	TIMR_Init(TIMR2, TIMR_MODE_COUNTER, 3, 1);	//Ã¿¼Æ3¸ö±ßÑØ½øÈëÖÐ¶Ï
+	TIMR_Init(TIMR2, TIMR_MODE_COUNTER, 3, 1);	//æ¯è®¡3ä¸ªè¾¹æ²¿è¿›å…¥ä¸­æ–­
 	
-	IRQ_Connect(IRQ0_15_TIMR2, IRQ5_IRQ, 2);	//¶¨Ê±Æ÷2ÖÐ¶ÏÁ´½Óµ½IRQ5ÖÐ¶ÏÏß£¬µÍÓÅÏÈ¼¶
+	IRQ_Connect(IRQ0_15_TIMR2, IRQ5_IRQ, 2);	//å®šæ—¶å™¨2ä¸­æ–­é“¾æŽ¥åˆ°IRQ5ä¸­æ–­çº¿ï¼Œä½Žä¼˜å…ˆçº§
 	
 	TIMR_Start(TIMR2);
 	
@@ -22,7 +22,7 @@ int main(void)
 
 void IRQ5_Handler(void)
 {
-	TIMR_Stop(TIMR2);			//±ØÐëÓÃÕâÈýÌõÓï¾äÇå³ýÖÐ¶Ï£¬²¢ÇÒÈýÌõÓï¾äµÄË³Ðò²»ÄÜµ÷»»£¬·ñÔò»á¶à´Î½øÈëÖÐ¶Ï´¦Àíº¯Êý
+	TIMR_Stop(TIMR2);			//å¿…é¡»ç”¨è¿™ä¸‰æ¡è¯­å¥æ¸…é™¤ä¸­æ–­ï¼Œå¹¶ä¸”ä¸‰æ¡è¯­å¥çš„é¡ºåºä¸èƒ½è°ƒæ¢ï¼Œå¦åˆ™ä¼šå¤šæ¬¡è¿›å…¥ä¸­æ–­å¤„ç†å‡½æ•°
 	TIMR_INTClr(TIMR2);
 	TIMR_Start(TIMR2);
 	

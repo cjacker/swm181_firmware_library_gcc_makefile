@@ -13,7 +13,7 @@ void SPIUART_Send(uint8_t buff[], uint16_t cnt);
 uint16_t SPIUART_Recv(uint16_t buff[], uint16_t min);
 void SPIUART_RecvPrepare(void);
 
-/****************************** ÄÚ²¿º¯Êý ***********************************/
+/****************************** å†…éƒ¨å‡½æ•° ***********************************/
 void UART2SPI_encode(uint8_t buff[], uint16_t cnt);
 void SPI2UART_decode(uint16_t buff[], uint16_t cnt);
 

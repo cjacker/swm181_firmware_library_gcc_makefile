@@ -14,7 +14,7 @@ int main(void)
 	CORDIC_Init(CORDIC);
 	
 	input = CORDIC_PI/6*16384;
-	if((input > 163) && (input < 25559))		//Ö»ÄÜ¼ÆËã0.01~1.56Ö®¼äµÄ»¡¶È
+	if((input > 163) && (input < 25559))		//åªèƒ½è®¡ç®—0.01~1.56ä¹‹é—´çš„å¼§åº¦
 	{
 		CORDIC_Sin(input);
 		while(CORDIC_Sin_IsDone() == 0);
@@ -22,7 +22,7 @@ int main(void)
 	}
 	
 	input = CORDIC_PI/3*16384;
-	if((input > 163) && (input < 25559))		//Ö»ÄÜ¼ÆËã0.01~1.56Ö®¼äµÄ»¡¶È
+	if((input > 163) && (input < 25559))		//åªèƒ½è®¡ç®—0.01~1.56ä¹‹é—´çš„å¼§åº¦
 	{
 		CORDIC_Cos(input);
 		while(CORDIC_Cos_IsDone() == 0);
@@ -30,7 +30,7 @@ int main(void)
 	}
 	
 	input = 1*16384;
-	if((input > 819) && (input < 10000*16384))	//Ö»ÄÜ¼ÆËã0.05~10000Ö®¼äµÄÖµ
+	if((input > 819) && (input < 10000*16384))	//åªèƒ½è®¡ç®—0.05~10000ä¹‹é—´çš„å€¼
 	{
 		CORDIC_Arctan(input);
 		while(CORDIC_Arctan_IsDone() == 0);
@@ -46,8 +46,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒı½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒı½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -61,12 +61,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊıÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼ş¾ä±ú
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®é™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

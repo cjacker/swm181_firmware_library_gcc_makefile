@@ -56,14 +56,14 @@ typedef struct struct_CO_Data CO_Data;
  */
 struct struct_CO_Data {
 	/* Object dictionary */
-	UNS8 *bDeviceNodeId;//Éè±¸IDºÅ
+	UNS8 *bDeviceNodeId;//è®¾å¤‡IDå·
 	const indextable *objdict;//subindex
-	s_PDO_status *PDO_status;//PDO×´Ì¬
-	TIMER_HANDLE *RxPDO_EventTimers;//RXPDO ´¥·¢Ê±¼ä
-	void (*RxPDO_EventTimers_Handler)(CO_Data*, UNS32);//RxPDO_EventTimers´¦Àí³ÌĞò
-	const quick_index *firstIndex; //¿ªÊ¼¿ìËÙ INDEX
-	const quick_index *lastIndex;//½áÊø ¿ìËÙ INDEX
-	const UNS16 *ObjdictSize;//¶ÔÏó×Öµä ´óĞ¡
+	s_PDO_status *PDO_status;//PDOçŠ¶æ€
+	TIMER_HANDLE *RxPDO_EventTimers;//RXPDO è§¦å‘æ—¶é—´
+	void (*RxPDO_EventTimers_Handler)(CO_Data*, UNS32);//RxPDO_EventTimerså¤„ç†ç¨‹åº
+	const quick_index *firstIndex; //å¼€å§‹å¿«é€Ÿ INDEX
+	const quick_index *lastIndex;//ç»“æŸ å¿«é€Ÿ INDEX
+	const UNS16 *ObjdictSize;//å¯¹è±¡å­—å…¸ å¤§å°
 	const UNS8 *iam_a_slave;//??
 	valueRangeTest_t valueRangeTest;//
 	
@@ -72,7 +72,7 @@ struct struct_CO_Data {
 	/* s_sdo_parameter *sdo_parameters; */
 
 	/* State machine */
-	e_nodeState nodeState;//½Úµã×´Ì¬
+	e_nodeState nodeState;//èŠ‚ç‚¹çŠ¶æ€
 	s_state_communication CurrentCommunicationState;
 	initialisation_t initialisation;
 	preOperational_t preOperational;

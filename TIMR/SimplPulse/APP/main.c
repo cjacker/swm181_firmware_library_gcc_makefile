@@ -14,14 +14,14 @@ int main(void)
 	
 	SerialInit();
 	
-	TestSignal();		// ²úÉú²âÊÔÐÅºÅ¹©Pulse¹¦ÄÜ²âÁ¿
+	TestSignal();		// äº§ç”Ÿæµ‹è¯•ä¿¡å·ä¾›PulseåŠŸèƒ½æµ‹é‡
 	
 	PORT_Init(PORTA, PIN4, FUNMUX_PULSE_IN, 1);		// PA4 -> Pulse_IN
 	
 	TIMR_Init(TIMR0, TIMR_MODE_TIMER, 0xFFFFFFFF, 0);
 	
 	TIMRG->PCTRL = (1 << TIMRG_PCTRL_EN_Pos) |
-				   (1 << TIMRG_PCTRL_HIGH_Pos);		// ²âÁ¿¸ßµçÆ½³¤¶È
+				   (1 << TIMRG_PCTRL_HIGH_Pos);		// æµ‹é‡é«˜ç”µå¹³é•¿åº¦
 	TIMRG->IE |=   (1 << TIMRG_IE_PULSE_Pos);
 	
 	IRQ_Connect(IRQ0_15_PULSE, IRQ4_IRQ, 1);
@@ -42,7 +42,7 @@ void IRQ4_Handler(void)
 		
 		PulseWidth = TIMRG->PCVAL;
 		
- 		TIMRG->PCTRL |= (1 << TIMRG_PCTRL_EN_Pos);		// ÔÙ´Î²âÁ¿
+ 		TIMRG->PCTRL |= (1 << TIMRG_PCTRL_EN_Pos);		// å†æ¬¡æµ‹é‡
 	}
 }
 
@@ -52,7 +52,7 @@ void TestSignal(void)
 	
 	PWM_initStruct.clk_div = PWM_CLKDIV_4;		//F_PWM = 24M/4 = 6M
 	
-	PWM_initStruct.mode = PWM_MODE_INDEP;		//AÂ·ºÍBÂ·¶ÀÁ¢Êä³ö					
+	PWM_initStruct.mode = PWM_MODE_INDEP;		//Aè·¯å’ŒBè·¯ç‹¬ç«‹è¾“å‡º					
 	PWM_initStruct.cycleA = 10000;				//6M/10000 = 600Hz			
 	PWM_initStruct.hdutyA =  2500;				//2500/10000 = 25%
 	PWM_initStruct.initLevelA = 1;
@@ -75,8 +75,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒý½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒý½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -90,12 +90,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊýÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼þ¾ä±ú
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜Ž: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®žé™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

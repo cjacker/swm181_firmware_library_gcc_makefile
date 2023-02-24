@@ -1,1 +1,1 @@
-功能说明：CANopen Demo
+鍔熻兘璇存槑锛欳ANopen Demo

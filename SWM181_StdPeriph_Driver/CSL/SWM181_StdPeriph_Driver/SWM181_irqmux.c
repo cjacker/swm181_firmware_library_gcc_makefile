@@ -1,10 +1,10 @@
 /****************************************************************************************************************************************** 
-* ÎÄ¼þÃû³Æ: SWM181_irqmux.c
-* ¹¦ÄÜËµÃ÷:	ÓÃÓÚ½«ÍâÉèÖÐ¶ÏÁ¬½Óµ½ÄÚºËÖÐ¶ÏIRQ0--IRQ31
-* ¼¼ÊõÖ§³Ö:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
-* ×¢ÒâÊÂÏî:
-* °æ±¾ÈÕÆÚ: V1.0.0		2016Äê1ÔÂ30ÈÕ
-* Éý¼¶¼ÇÂ¼: 
+* æ–‡ä»¶åç§°: SWM181_irqmux.c
+* åŠŸèƒ½è¯´æ˜Ž:	ç”¨äºŽå°†å¤–è®¾ä¸­æ–­è¿žæŽ¥åˆ°å†…æ ¸ä¸­æ–­IRQ0--IRQ31
+* æŠ€æœ¯æ”¯æŒ:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
+* æ³¨æ„äº‹é¡¹:
+* ç‰ˆæœ¬æ—¥æœŸ: V1.0.0		2016å¹´1æœˆ30æ—¥
+* å‡çº§è®°å½•: 
 *
 *
 *******************************************************************************************************************************************
@@ -23,20 +23,20 @@
 
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: IRQ_Connect()
-* ¹¦ÄÜËµÃ÷:	½«ÍâÉèÖÐ¶ÏÁ¬½Óµ½ÄÚºËÖÐ¶ÏIRQ0--IRQ31
-* Êä    Èë: uint32_t periph_interrupt	Ö¸¶¨ÍâÉèÖÐ¶Ï£¬ÓÐÐ§Öµ¼û"SWM181_irqmux.h"
-*			uint32_t IRQn		       	ÒªÁ¬½Óµ½µÄÄÚºËÖÐ¶ÏºÅ£¬ÓÐÐ§ÖµIRQ0_IRQ¡¢IRQ1_IRQ¡¢ ... ... IRQ30_IRQ¡¢IRQ31_IRQ£¬
-*										ÓÉÓÚIRQ16--IRQ31Ã¿Ò»¸öIRQÉÏ¿ÉÒÔÁ¬½ÓÁ½¸öÍâÉèÖÐ¶Ï£¬ËùÒÔÐèÒª¡°°´Î»»ò¡±ÉÏIRQ_INT0ºÍIRQ_INT1À´Çø·Ö£¬²¢ÇÒ
-*										IRQ30_IRQ | IRQ_INT0 == IRQ30_IRQ£¬ËùÒÔ¡°°´Î»»ò¡±IRQ_INT0¿ÉÒÔÊ¡È¥
-*			uint32_t priority	       	ÖÐ¶ÏÓÅÏÈ¼¶£¬ÓÐÐ§Öµ0¡¢1¡¢2¡¢3£¬ÊýÖµÔ½Ð¡ÓÅÏÈ¼¶Ô½¸ß
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ¾ÙÀý£¬IRQ_Connect(IRQ0_15_GPIOA1, IRQ6_IRQ, 0)					½«GPIOA¶Ë¿ÚÒý½Å1ÉÏµÄÖÐ¶ÏÁ¬½Óµ½IRQ6ÄÚºËÖÐ¶Ï
+* å‡½æ•°åç§°: IRQ_Connect()
+* åŠŸèƒ½è¯´æ˜Ž:	å°†å¤–è®¾ä¸­æ–­è¿žæŽ¥åˆ°å†…æ ¸ä¸­æ–­IRQ0--IRQ31
+* è¾“    å…¥: uint32_t periph_interrupt	æŒ‡å®šå¤–è®¾ä¸­æ–­ï¼Œæœ‰æ•ˆå€¼è§"SWM181_irqmux.h"
+*			uint32_t IRQn		       	è¦è¿žæŽ¥åˆ°çš„å†…æ ¸ä¸­æ–­å·ï¼Œæœ‰æ•ˆå€¼IRQ0_IRQã€IRQ1_IRQã€ ... ... IRQ30_IRQã€IRQ31_IRQï¼Œ
+*										ç”±äºŽIRQ16--IRQ31æ¯ä¸€ä¸ªIRQä¸Šå¯ä»¥è¿žæŽ¥ä¸¤ä¸ªå¤–è®¾ä¸­æ–­ï¼Œæ‰€ä»¥éœ€è¦â€œæŒ‰ä½æˆ–â€ä¸ŠIRQ_INT0å’ŒIRQ_INT1æ¥åŒºåˆ†ï¼Œå¹¶ä¸”
+*										IRQ30_IRQ | IRQ_INT0 == IRQ30_IRQï¼Œæ‰€ä»¥â€œæŒ‰ä½æˆ–â€IRQ_INT0å¯ä»¥çœåŽ»
+*			uint32_t priority	       	ä¸­æ–­ä¼˜å…ˆçº§ï¼Œæœ‰æ•ˆå€¼0ã€1ã€2ã€3ï¼Œæ•°å€¼è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: ä¸¾ä¾‹ï¼ŒIRQ_Connect(IRQ0_15_GPIOA1, IRQ6_IRQ, 0)					å°†GPIOAç«¯å£å¼•è„š1ä¸Šçš„ä¸­æ–­è¿žæŽ¥åˆ°IRQ6å†…æ ¸ä¸­æ–­
 *
-*                 IRQ_Connect(IRQ16_31_UART0, IRQ18_IRQ | IRQ_INT0, 0)		½«UART0ÖÐ¶ÏÁ¬½Óµ½IRQ18ÄÚºËÖÐ¶ÏµÄÖÐ¶Ï0ÉÏ£¬Ëü»¹¿É¼ò»¯³É
+*                 IRQ_Connect(IRQ16_31_UART0, IRQ18_IRQ | IRQ_INT0, 0)		å°†UART0ä¸­æ–­è¿žæŽ¥åˆ°IRQ18å†…æ ¸ä¸­æ–­çš„ä¸­æ–­0ä¸Šï¼Œå®ƒè¿˜å¯ç®€åŒ–æˆ
 *				  IRQ_Connect(IRQ16_31_UART0, IRQ18_IRQ, 0)
 *
-*				  IRQ_Connect(IRQ16_31_SDADC, IRQ24_IRQ | IRQ_INT1, 0)		½«SDADCÖÐ¶ÏÁ¬½Óµ½IRQ24ÄÚºËÖÐ¶ÏµÄÖÐ¶Ï1ÉÏ
+*				  IRQ_Connect(IRQ16_31_SDADC, IRQ24_IRQ | IRQ_INT1, 0)		å°†SDADCä¸­æ–­è¿žæŽ¥åˆ°IRQ24å†…æ ¸ä¸­æ–­çš„ä¸­æ–­1ä¸Š
 ******************************************************************************************************************************************/
 void IRQ_Connect(uint32_t periph_interrupt, uint32_t IRQn, uint32_t priority)
 {
@@ -77,12 +77,12 @@ void IRQ_Connect(uint32_t periph_interrupt, uint32_t IRQn, uint32_t priority)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: IRQ_Which()
-* ¹¦ÄÜËµÃ÷:	IRQ16--IRQ31Ã¿Ò»¸öIRQÉÏ¿ÉÒÔÁ¬½ÓÁ½¸öÍâÉèÖÐ¶Ï£¬´Ëº¯ÊýÓÃÓÚÅÐ¶ÏÁ½¸öÍâÉèÖÐ¶ÏÖÐµÄÄÄÒ»¸ö´¥·¢ÁËÖÐ¶ÏÇëÇó
-* Êä    Èë: uint32_t IRQn	IRQ16_IRQ¡¢IRQ17_IRQ¡¢ ... ... IRQ30_IRQ¡¢IRQ31_IRQ
-* Êä    ³ö: uint32_t		IRQ_INT0 IRQnµÄINT0´¥·¢ÁËÖÐ¶Ï    			IRQ_INT1 IRQnµÄINT1´¥·¢ÁËÖÐ¶Ï
-*							IRQ_BOTH IRQnµÄINT0ºÍINT1¶¼´¥·¢ÁËÖÐ¶Ï		IRQ_NONE IRQnµÄINT0ºÍINT1¶¼Î´´¥·¢ÖÐ¶Ï
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: IRQ_Which()
+* åŠŸèƒ½è¯´æ˜Ž:	IRQ16--IRQ31æ¯ä¸€ä¸ªIRQä¸Šå¯ä»¥è¿žæŽ¥ä¸¤ä¸ªå¤–è®¾ä¸­æ–­ï¼Œæ­¤å‡½æ•°ç”¨äºŽåˆ¤æ–­ä¸¤ä¸ªå¤–è®¾ä¸­æ–­ä¸­çš„å“ªä¸€ä¸ªè§¦å‘äº†ä¸­æ–­è¯·æ±‚
+* è¾“    å…¥: uint32_t IRQn	IRQ16_IRQã€IRQ17_IRQã€ ... ... IRQ30_IRQã€IRQ31_IRQ
+* è¾“    å‡º: uint32_t		IRQ_INT0 IRQnçš„INT0è§¦å‘äº†ä¸­æ–­    			IRQ_INT1 IRQnçš„INT1è§¦å‘äº†ä¸­æ–­
+*							IRQ_BOTH IRQnçš„INT0å’ŒINT1éƒ½è§¦å‘äº†ä¸­æ–­		IRQ_NONE IRQnçš„INT0å’ŒINT1éƒ½æœªè§¦å‘ä¸­æ–­
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 uint32_t IRQ_Which(uint32_t IRQn)
 {

@@ -9,7 +9,7 @@ int main(void)
 	
 	PWM_initStruct.clk_div = PWM_CLKDIV_4;		//F_PWM = 24M/4 = 6M
 	
-	PWM_initStruct.mode = PWM_MODE_INDEP;		//AÂ·ºÍBÂ·¶ÀÁ¢Êä³ö					
+	PWM_initStruct.mode = PWM_MODE_INDEP;		//Aè·¯å’ŒBè·¯ç‹¬ç«‹è¾“å‡º					
 	PWM_initStruct.cycleA = 10000;				//6M/10000 = 600Hz			
 	PWM_initStruct.hdutyA =  2500;				//2500/10000 = 25%
 	PWM_initStruct.deadzoneA = 10;
@@ -30,7 +30,7 @@ int main(void)
 	
 	PWM_Start(PWM1, 1, 1);
 	
-	/* É²³µ¹¦ÄÜ²âÊÔ */
+	/* åˆ¹è½¦åŠŸèƒ½æµ‹è¯• */
 #if 0
 	PORT_Init(PORTA, PIN6, FUNMUX_PWM_BREAK, 1);
 	
@@ -38,7 +38,7 @@ int main(void)
 				 (1 << PWMG_HALT_PWM1_Pos)    |
 				 (1 << PWMG_HALT_STOPCNT_Pos) |
 				 (0 << PWMG_HALT_VALIDI_Pos)  |
-				 (0 << PWMG_HALT_VALIDO_Pos);	// PWM_BREAKµçÆ½Î»µÍÊ±£¬PWM1Êä³ö±ä³ÉµÍ
+				 (0 << PWMG_HALT_VALIDO_Pos);	// PWM_BREAKç”µå¹³ä½ä½Žæ—¶ï¼ŒPWM1è¾“å‡ºå˜æˆä½Ž
 #endif
 
 	while(1==1)

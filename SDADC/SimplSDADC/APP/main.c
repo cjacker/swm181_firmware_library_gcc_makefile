@@ -30,12 +30,12 @@ int main(void)
 	SDADC_initStruct.out_cali = SDADC_OUT_CALIED;
 	SDADC_initStruct.refp_sel = SDADC_REFP_AVDD;
 	SDADC_initStruct.trig_src = SDADC_TRIGSRC_SW;
-	SDADC_initStruct.Continue = 0;						//∑«¡¨–¯ƒ£ Ω£¨º¥µ•¥Œƒ£ Ω
+	SDADC_initStruct.Continue = 0;						//ÈùûËøûÁª≠Ê®°ÂºèÔºåÂç≥ÂçïÊ¨°Ê®°Âºè
 	SDADC_initStruct.EOC_IEn = 0;	
 	SDADC_initStruct.OVF_IEn = 0;
 	SDADC_initStruct.HFULL_IEn = 0;
 	SDADC_initStruct.FULL_IEn = 0;
-	SDADC_Init(SDADC, &SDADC_initStruct);				//≈‰÷√SDADC
+	SDADC_Init(SDADC, &SDADC_initStruct);				//ÈÖçÁΩÆSDADC
 	
 	SDADC_Config_Set(SDADC, SDADC_CFG_A, SDADC_CFG_GAIN_1, 1, 1);
 	SDADC_Config_Cali(SDADC, SDADC_CFG_A, SDADC_CALI_COM_GND, 0);
@@ -44,7 +44,7 @@ int main(void)
 	SDADC_Config_Cali(SDADC, SDADC_CFG_B, SDADC_CALI_COM_GND, 0);
 	SDADC_Config_Sel(SDADC, SDADC_CFG_B, SDADC_CH3 | SDADC_CH4 | SDADC_CH5);
 	
-	SDADC_Open(SDADC);									// πƒ‹SDADC
+	SDADC_Open(SDADC);									//‰ΩøËÉΩSDADC
 	
 	while(1==1)
 	{
@@ -55,7 +55,7 @@ int main(void)
 		res = SDADC_Read(SDADC, &chn);
 		printf("%6d,", res);
 		
-		for(i=0; i<800; i++);	//¥À—” ± «±ÿ–Îµƒ£¨Àı∂Ã∫Ûø…ƒ‹µº÷¬SDADC≤ªπ§◊˜
+		for(i=0; i<800; i++);	//Ê≠§Âª∂Êó∂ÊòØÂøÖÈ°ªÁöÑÔºåÁº©Áü≠ÂêéÂèØËÉΩÂØºËá¥SDADC‰∏çÂ∑•‰Ωú
 	}
 }
 
@@ -63,8 +63,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);		//GPIOA.0≈‰÷√Œ™UART0 ‰»Î“˝Ω≈
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);		//GPIOA.1≈‰÷√Œ™UART0 ‰≥ˆ“˝Ω≈
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);		//GPIOA.0ÈÖçÁΩÆ‰∏∫UART0ËæìÂÖ•ÂºïËÑö
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);		//GPIOA.1ÈÖçÁΩÆ‰∏∫UART0ËæìÂá∫ÂºïËÑö
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -78,12 +78,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* ∫Ø ˝√˚≥∆: fputc()
-* π¶ƒ‹Àµ√˜: printf() π”√¥À∫Ø ˝ÕÍ≥… µº µƒ¥Æø⁄¥Ú”°∂Ø◊˜
-*  ‰    »Î: int ch		“™¥Ú”°µƒ◊÷∑˚
-*			FILE *f		Œƒº˛æ‰±˙
-*  ‰    ≥ˆ: Œﬁ
-* ◊¢“‚ ¬œÓ: Œﬁ
+* ÂáΩÊï∞ÂêçÁß∞: fputc()
+* ÂäüËÉΩËØ¥Êòé: printf()‰ΩøÁî®Ê≠§ÂáΩÊï∞ÂÆåÊàêÂÆûÈôÖÁöÑ‰∏≤Âè£ÊâìÂç∞Âä®‰Ωú
+* Ëæì    ÂÖ•: int ch		Ë¶ÅÊâìÂç∞ÁöÑÂ≠óÁ¨¶
+*			FILE *f		Êñá‰ª∂Âè•ÊüÑ
+* Ëæì    Âá∫: Êó†
+* Ê≥®ÊÑè‰∫ãÈ°π: Êó†
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

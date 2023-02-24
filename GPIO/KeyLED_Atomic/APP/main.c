@@ -5,13 +5,13 @@ int main(void)
 {	
 	SystemInit();
 	
-	GPIO_Init(GPIOA, PIN4, 0, 1, 0, 0);			//ÊäÈë£¬ÉÏÀ­Ê¹ÄÜ£¬½ÓKEY
+	GPIO_Init(GPIOA, PIN4, 0, 1, 0, 0);			//è¾“å…¥ï¼Œä¸Šæ‹‰ä½¿èƒ½ï¼ŒæŽ¥KEY
 	
-	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//Êä³ö£¬ ½ÓLED
+	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//è¾“å‡ºï¼Œ æŽ¥LED
 	
 	while(1==1)
 	{
-		if(GPIO_GetBit(GPIOA, PIN4) == 0)		//°´¼ü±»°´ÏÂ
+		if(GPIO_GetBit(GPIOA, PIN4) == 0)		//æŒ‰é”®è¢«æŒ‰ä¸‹
 		{
 			GPIO_AtomicSetBit(GPIOA, PIN5);
 		}

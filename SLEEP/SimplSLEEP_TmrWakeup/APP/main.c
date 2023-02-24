@@ -7,29 +7,29 @@ int main(void)
 	
 	SystemInit();
 	
-	GPIO_Init(GPIOA, PIN4, 1, 0, 0, 0);				//½Ó LED£¬Ö¸Ê¾³ÌÐòÖ´ÐÐ×´Ì¬
+	GPIO_Init(GPIOA, PIN4, 1, 0, 0, 0);				//æŽ¥ LEDï¼ŒæŒ‡ç¤ºç¨‹åºæ‰§è¡ŒçŠ¶æ€
 	
-	for(i = 0; i < SystemCoreClock; i++);			//ÑÓÊ±£¬·ÀÖ¹ÉÏµçºóSWDÁ¢¼´ÇÐµôÎÞ·¨ÏÂÔØ³ÌÐò
+	for(i = 0; i < SystemCoreClock; i++);			//å»¶æ—¶ï¼Œé˜²æ­¢ä¸Šç”µåŽSWDç«‹å³åˆ‡æŽ‰æ— æ³•ä¸‹è½½ç¨‹åº
 	
-	SYS->TWKTIM = 32768 * 3;						//Ë¯Ãß 3ÃëÖÓ»½ÐÑ
-	SYS->TWKCR |= (1 << SYS_TWKCR_EN_Pos);			//¿ªÆô¶¨Ê±Æ÷»½ÐÑ
+	SYS->TWKTIM = 32768 * 3;						//ç¡çœ  3ç§’é’Ÿå”¤é†’
+	SYS->TWKCR |= (1 << SYS_TWKCR_EN_Pos);			//å¼€å¯å®šæ—¶å™¨å”¤é†’
 	
-													//ÌØ±ðÌáÐÑ£ºÖ´ÐÐÏÂÃæÕâÒ»¾äºóSWDÁ½¸öÒý½ÅµÄÊý×ÖÊäÈë¾Í¹Ø±ÕÁË£¬£¬·ÂÕæÆ÷¾ÍÁ¬²»ÉÏÁË
-	PORTA->INEN = 0;								//½øÈëË¯ÃßÇ°Ðë¹Ø±ÕËùÓÐÒý½ÅµÄÊý×ÖÊäÈë¹¦ÄÜ£¬ÒÔ½µµÍË¯Ãß¹¦ºÄ
+													//ç‰¹åˆ«æé†’ï¼šæ‰§è¡Œä¸‹é¢è¿™ä¸€å¥åŽSWDä¸¤ä¸ªå¼•è„šçš„æ•°å­—è¾“å…¥å°±å…³é—­äº†ï¼Œï¼Œä»¿çœŸå™¨å°±è¿žä¸ä¸Šäº†
+	PORTA->INEN = 0;								//è¿›å…¥ç¡çœ å‰é¡»å…³é—­æ‰€æœ‰å¼•è„šçš„æ•°å­—è¾“å…¥åŠŸèƒ½ï¼Œä»¥é™ä½Žç¡çœ åŠŸè€—
 	PORTB->INEN = 0;
 	PORTC->INEN = 0;
 	PORTD->INEN = 0;
 	
 	while(1==1)
 	{
-		GPIO_SetBit(GPIOA, PIN4);					//µãÁÁLED
+		GPIO_SetBit(GPIOA, PIN4);					//ç‚¹äº®LED
 		for(i = 0; i < SystemCoreClock/10; i++);
-		GPIO_ClrBit(GPIOA, PIN4);					//Ï¨ÃðLED
+		GPIO_ClrBit(GPIOA, PIN4);					//ç†„ç­LED
 		
-		EnterSleepMode();							//½øÈëË¯ÃßÄ£Ê½
+		EnterSleepMode();							//è¿›å…¥ç¡çœ æ¨¡å¼
 		
-		while((SYS->TWKCR & SYS_TWKCR_ST_Msk) == 0);//µÈ´ý»½ÐÑÌõ¼þ
-		SYS->TWKCR |= (1 << SYS_TWKCR_ST_Msk);		//Çå³ý»½ÐÑ×´Ì¬
+		while((SYS->TWKCR & SYS_TWKCR_ST_Msk) == 0);//ç­‰å¾…å”¤é†’æ¡ä»¶
+		SYS->TWKCR |= (1 << SYS_TWKCR_ST_Msk);		//æ¸…é™¤å”¤é†’çŠ¶æ€
 	}
 }
 
@@ -37,8 +37,8 @@ void SerialInit(void)
 {
 	UART_InitStructure UART_initStruct;
 	
-	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0ÅäÖÃÎªUART0ÊäÈëÒý½Å
-	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1ÅäÖÃÎªUART0Êä³öÒý½Å
+	PORT_Init(PORTA, PIN0, FUNMUX_UART0_RXD, 1);	//GPIOA.0é…ç½®ä¸ºUART0è¾“å…¥å¼•è„š
+	PORT_Init(PORTA, PIN1, FUNMUX_UART0_TXD, 0);	//GPIOA.1é…ç½®ä¸ºUART0è¾“å‡ºå¼•è„š
  	
  	UART_initStruct.Baudrate = 57600;
 	UART_initStruct.DataBits = UART_DATA_8BIT;
@@ -52,12 +52,12 @@ void SerialInit(void)
 }
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊýÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼þ¾ä±ú
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜Ž: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®žé™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

@@ -2,9 +2,9 @@
 #define __SWM181_IRQMUX_H__
 
 
-void IRQ_Connect(uint32_t periph_interrupt, uint32_t IRQn, uint32_t priority);	//将外设中断连接到内核中断IRQ0--IRQ31
+void IRQ_Connect(uint32_t periph_interrupt, uint32_t IRQn, uint32_t priority);	//灏嗗璁句腑鏂繛鎺ュ埌鍐呮牳涓柇IRQ0--IRQ31
 
-uint32_t IRQ_Which(uint32_t IRQn);	//IRQ16--IRQ31每一个IRQ上可以连接两个外设中断，此函数用于判断两个外设中断中的哪一个触发了中断请求
+uint32_t IRQ_Which(uint32_t IRQn);	//IRQ16--IRQ31姣忎竴涓狪RQ涓婂彲浠ヨ繛鎺ヤ袱涓璁句腑鏂紝姝ゅ嚱鏁扮敤浜庡垽鏂袱涓璁句腑鏂腑鐨勫摢涓�涓Е鍙戜簡涓柇璇锋眰
 
 
 #define IRQ_INT0	0x000

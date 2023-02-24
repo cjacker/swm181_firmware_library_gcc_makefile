@@ -1,1 +1,1 @@
-功能说明：SPI0读写操作SPI Flash
+鍔熻兘璇存槑锛歋PI0璇诲啓鎿嶄綔SPI Flash

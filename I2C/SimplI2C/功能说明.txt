@@ -1,1 +1,1 @@
-¹¦ÄÜËµÃ÷£ºI2C0×öMaster¡¢I2C1×öSlave£¬I2C0ÏÈ·¢ËÍ4¸ö×Ö½Ú¸øI2C1£¬È»ºóÔÙ¶Á»ØÀ´£¬±È½ÏÄÚÈÝÊÇ·ñÕýÈ·
+åŠŸèƒ½è¯´æ˜Žï¼šI2C0åšMasterã€I2C1åšSlaveï¼ŒI2C0å…ˆå‘é€4ä¸ªå­—èŠ‚ç»™I2C1ï¼Œç„¶åŽå†è¯»å›žæ¥ï¼Œæ¯”è¾ƒå†…å®¹æ˜¯å¦æ­£ç¡®

@@ -2,10 +2,10 @@
 #define __SWM181_SLCD_H__
 
 typedef struct {
-	uint8_t Duty;		//Õ¼¿Õ±È£ºSLCD_DUTY_1DIV4¡¢SLCD_DUTY_1DIV3
-	uint8_t Bias;		//Æ«ÖÃÄ£Ê½£ºSLCD_BIAS_1DIV3¡¢SLCD_BIAX_1DIV2
-	uint8_t FrameFreq;	//Ö¡ÆµÂÊ£ºSLCD_FRAMEFREQ_32Hz¡¢SLCD_FRAMEFREQ_16Hz¡¢SLCD_FRAMEFREQ_8Hz¡¢SLCD_FRAMEFREQ_4Hz
-	uint8_t DriveCurr;	//Çý¶¯µçÁ÷£ºSLCD_DRIVECURR_8uA¡¢SLCD_DRIVECURR_25uA¡¢SLCD_DRIVECURR_50uA¡¢SLCD_DRIVECURR_100uA
+	uint8_t Duty;		//å ç©ºæ¯”ï¼šSLCD_DUTY_1DIV4ã€SLCD_DUTY_1DIV3
+	uint8_t Bias;		//åç½®æ¨¡å¼ï¼šSLCD_BIAS_1DIV3ã€SLCD_BIAX_1DIV2
+	uint8_t FrameFreq;	//å¸§é¢‘çŽ‡ï¼šSLCD_FRAMEFREQ_32Hzã€SLCD_FRAMEFREQ_16Hzã€SLCD_FRAMEFREQ_8Hzã€SLCD_FRAMEFREQ_4Hz
+	uint8_t DriveCurr;	//é©±åŠ¨ç”µæµï¼šSLCD_DRIVECURR_8uAã€SLCD_DRIVECURR_25uAã€SLCD_DRIVECURR_50uAã€SLCD_DRIVECURR_100uA
 } SLCD_InitStructure;
 
 #define SLCD_DUTY_1DIV4		0	// 1/4 Duty
@@ -35,13 +35,13 @@ void SLCD_AllOn(SLCD_TypeDef * SLCDx);
 
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ:	SLCD_SegWrite()
-* ¹¦ÄÜËµÃ÷:	½«¶ÏÂëÆÁÉÏ[com, seg]Ö¸¶¨µÄ×Ö¶ÎµãÁÁ£¨val=1£©»òÏ¨Ãð£¨val=0£©
-* Êä    Èë: uint32_t com		¶ÏÂëÆÁCOM¶Ë£¬È¡ÖµSLCD_COM0¡¢SLCD_COM1¡¢SLCD_COM2¡¢SLCD_COM3
-*			uint32_t seg		¶ÏÂëÆÁSEG¶Ë£¬È¡ÖµSLCD_SEG0¡¢SLCD_SEG1¡¢... ... ¡¢SLCD_SEG30¡¢SLCD_SEG31
-*			uint32_t val		1 µãÁÁ     0 Ï¨Ãð
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°:	SLCD_SegWrite()
+* åŠŸèƒ½è¯´æ˜Ž:	å°†æ–­ç å±ä¸Š[com, seg]æŒ‡å®šçš„å­—æ®µç‚¹äº®ï¼ˆval=1ï¼‰æˆ–ç†„ç­ï¼ˆval=0ï¼‰
+* è¾“    å…¥: uint32_t com		æ–­ç å±COMç«¯ï¼Œå–å€¼SLCD_COM0ã€SLCD_COM1ã€SLCD_COM2ã€SLCD_COM3
+*			uint32_t seg		æ–­ç å±SEGç«¯ï¼Œå–å€¼SLCD_SEG0ã€SLCD_SEG1ã€... ... ã€SLCD_SEG30ã€SLCD_SEG31
+*			uint32_t val		1 ç‚¹äº®     0 ç†„ç­
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 static __INLINE void SLCD_SegWrite(uint32_t com, uint32_t seg, uint32_t val)
 {

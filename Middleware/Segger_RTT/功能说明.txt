@@ -1,1 +1,1 @@
-功能说明：Segger RTT使用例程
+鍔熻兘璇存槑锛歋egger RTT浣跨敤渚嬬▼

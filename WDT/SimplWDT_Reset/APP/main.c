@@ -7,13 +7,13 @@ int main(void)
 
 	SystemInit();
 	
-	for(i=0;i<1000000;i++);						//¸´Î»ºóµÈÒ»»á¶ùÔÙµãÁÁLED
+	for(i=0;i<1000000;i++);						//å¤ä½åŽç­‰ä¸€ä¼šå„¿å†ç‚¹äº®LED
 	
-	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//Êä³ö£¬½ÓLED
-	GPIO_SetBit(GPIOA, PIN5);					//µãÁÁLED
+	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//è¾“å‡ºï¼ŒæŽ¥LED
+	GPIO_SetBit(GPIOA, PIN5);					//ç‚¹äº®LED
 	
-	WDT_Init(WDT, SystemCoreClock/2, WDT_MODE_RESET);	//Ã¿0.5ÃëÐèÒªÎ¹¹·Ò»´Î
-	WDT_Start(WDT);								//Æô¶¯WDT
+	WDT_Init(WDT, SystemCoreClock/2, WDT_MODE_RESET);	//æ¯0.5ç§’éœ€è¦å–‚ç‹—ä¸€æ¬¡
+	WDT_Start(WDT);								//å¯åŠ¨WDT
 	
 	while(1==1)
 	{

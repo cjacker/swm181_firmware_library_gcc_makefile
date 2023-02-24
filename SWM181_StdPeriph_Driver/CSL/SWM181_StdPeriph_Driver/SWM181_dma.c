@@ -1,10 +1,10 @@
 /****************************************************************************************************************************************** 
-* �ļ�����: SWM181_dma.c
-* ����˵��:	SWM181��Ƭ����DMA����������
-* ����֧��:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
-* ע������: �ڲ�ʹ���жϵ�����£�Ҳ���Ե���DMA_CH_INTStat()��ѯ���ݰ����Ƿ���ɣ�������DMA_CH_INTClr()�����ɱ�־
-* �汾����:	V1.0.0		2016��1��30��
-* ������¼:  
+* 文件名称: SWM181_dma.c
+* 功能说明:	SWM181单片机的DMA功能驱动库
+* 技术支持:	http://www.synwit.com.cn/e/tool/gbook/?bid=1
+* 注意事项: 在不使能中断的情况下，也可以调用DMA_CH_INTStat()查询数据搬运是否完成，并调用DMA_CH_INTClr()清除完成标志
+* 版本日期:	V1.0.0		2016年1月30日
+* 升级记录:  
 *
 *
 *******************************************************************************************************************************************
@@ -23,20 +23,20 @@
 
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_Config()
-* ����˵��:	DMAͨ������
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-*			uint32_t ram_addr		����Ҫ�����˵�RAM�еĵ�ַ�������ֶ���
-*			uint32_t num_word		Ҫ���˵�����������ע�⣬��λ���֣������ֽڣ����1024
-*			uint32_t int_en			�ж�ʹ�ܣ�1 ���ݰ�����ɺ�����ж�    0 ���ݰ�����ɺ󲻲����ж�
-* ��    ��: ��
-* ע������: �ڴ洢���䣨��Flash��RAM�䣩����������ʹ��DMA_CHM_Config()
+* 函数名称: DMA_CH_Config()
+* 功能说明:	DMA通道配置
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+*			uint32_t ram_addr		数据要被搬运到RAM中的地址，必须字对齐
+*			uint32_t num_word		要搬运的数据字数，注意，单位是字，不是字节，最大1024
+*			uint32_t int_en			中断使能，1 数据搬运完成后产生中断    0 数据搬运完成后不产生中断
+* 输    出: 无
+* 注意事项: 在存储器间（如Flash和RAM间）搬运数据请使用DMA_CHM_Config()
 ******************************************************************************************************************************************/
 void DMA_CH_Config(uint32_t chn, uint32_t ram_addr, uint32_t num_word, uint32_t int_en)
 {
-	DMA->EN = 1;			//ÿ��ͨ�������Լ������Ŀ��ؿ��ƣ������ܿ��ؿ�����һֱ������
+	DMA->EN = 1;			//每个通道都有自己独立的开关控制，所以总开关可以是一直开启的
 	
-	DMA_CH_Close(chn);		//����ǰ�ȹرո�ͨ��
+	DMA_CH_Close(chn);		//配置前先关闭该通道
 	
 	switch(chn)
 	{
@@ -64,28 +64,28 @@ void DMA_CH_Config(uint32_t chn, uint32_t ram_addr, uint32_t num_word, uint32_t 
 	
 	DMA->CH[chn].CR = ((num_word*4-1) << DMA_CR_LEN_Pos);
 	
-	DMA->IE = 0x37;			//��ʹ��ʹ���жϣ�Ҳ���Բ�ѯ״̬/��־
+	DMA->IE = 0x37;			//即使不使能中断，也可以查询状态/标志
 	DMA_CH_INTClr(chn);
 	if(int_en) DMA_CH_INTEn(chn);
 	else	   DMA_CH_INTDis(chn);
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CHM_Config()
-* ����˵��:	DMAͨ�����ã����ڴ洢���䣨��Flash��RAM�䣩��������
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH
-*			uint32_t src_addr		��DMA_CHW_FLASHͨ����Դ��ַ��RAM�е�ַ���ֶ��룻    ��DMA_CHR_FLASHͨ����Դ��ַ��Flash�е�ַ���ֶ���
-*			uint32_t dst_addr		��DMA_CHW_FLASHͨ����Ŀ��ֱ����Flash�е�ַ���ֶ��룻��DMA_CHR_FLASHͨ����Ŀ���ַ��RAM�е�ַ���ֶ���
-*			uint32_t num_word		Ҫ���˵�����������ע�⣬��λ���֣������ֽڣ����1024
-*			uint32_t int_en			�ж�ʹ�ܣ�1 ���ݰ�����ɺ�����ж�    0 ���ݰ�����ɺ󲻲����ж�
-* ��    ��: ��
-* ע������: ��
+* 函数名称: DMA_CHM_Config()
+* 功能说明:	DMA通道配置，用于存储器间（如Flash和RAM间）搬运数据
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH
+*			uint32_t src_addr		对DMA_CHW_FLASH通道，源地址是RAM中地址，字对齐；    对DMA_CHR_FLASH通道，源地址是Flash中地址，字对齐
+*			uint32_t dst_addr		对DMA_CHW_FLASH通道，目标直至是Flash中地址，字对齐；对DMA_CHR_FLASH通道，目标地址是RAM中地址，字对齐
+*			uint32_t num_word		要搬运的数据字数，注意，单位是字，不是字节，最大1024
+*			uint32_t int_en			中断使能，1 数据搬运完成后产生中断    0 数据搬运完成后不产生中断
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void DMA_CHM_Config(uint32_t chn, uint32_t src_addr, uint32_t dst_addr, uint32_t num_word, uint32_t int_en)
 {
-	DMA->EN = 1;			//ÿ��ͨ�������Լ������Ŀ��ؿ��ƣ������ܿ��ؿ�����һֱ������
+	DMA->EN = 1;			//每个通道都有自己独立的开关控制，所以总开关可以是一直开启的
 	
-	DMA_CH_Close(chn);		//����ǰ�ȹرո�ͨ��
+	DMA_CH_Close(chn);		//配置前先关闭该通道
 	
 	DMA->CH[chn].SRC = src_addr;
 	DMA->CH[chn].DST = dst_addr;
@@ -93,18 +93,18 @@ void DMA_CHM_Config(uint32_t chn, uint32_t src_addr, uint32_t dst_addr, uint32_t
 	DMA->CH[chn].CR &= ~DMA_CR_LEN_Msk;
 	DMA->CH[chn].CR |= ((num_word*4-1) << DMA_CR_LEN_Pos);
 	
-	DMA->IE = 0x37;			//��ʹ��ʹ���жϣ�Ҳ���Բ�ѯ״̬/��־
+	DMA->IE = 0x37;			//即使不使能中断，也可以查询状态/标志
 	DMA_CH_INTClr(chn);
 	if(int_en) DMA_CH_INTEn(chn);
 	else	   DMA_CH_INTDis(chn);
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_Open()
-* ����˵��:	DMAͨ����
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-* ��    ��: ��
-* ע������: ��
+* 函数名称: DMA_CH_Open()
+* 功能说明:	DMA通道打开
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH、DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void DMA_CH_Open(uint32_t chn)
 {
@@ -124,11 +124,11 @@ void DMA_CH_Open(uint32_t chn)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_Close()
-* ����˵��:	DMAͨ���ر�
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-* ��    ��: ��
-* ע������: ��
+* 函数名称: DMA_CH_Close()
+* 功能说明:	DMA通道关闭
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH、DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void DMA_CH_Close(uint32_t chn)
 {
@@ -148,11 +148,11 @@ void DMA_CH_Close(uint32_t chn)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_INTEn()
-* ����˵��:	DMA�ж�ʹ�ܣ����ݰ�����ɺ󴥷��ж�
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-* ��    ��: ��
-* ע������: ��
+* 函数名称: DMA_CH_INTEn()
+* 功能说明:	DMA中断使能，数据搬运完成后触发中断
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH、DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void DMA_CH_INTEn(uint32_t chn)
 {
@@ -181,11 +181,11 @@ void DMA_CH_INTEn(uint32_t chn)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_INTDis()
-* ����˵��:	DMA�жϽ�ֹ�����ݰ�����ɺ󲻴����ж�
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-* ��    ��: ��
-* ע������: ��
+* 函数名称: DMA_CH_INTDis()
+* 功能说明:	DMA中断禁止，数据搬运完成后不触发中断
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH、DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void DMA_CH_INTDis(uint32_t chn)
 {
@@ -214,11 +214,11 @@ void DMA_CH_INTDis(uint32_t chn)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_INTClr()
-* ����˵��:	DMA�жϱ�־���
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-* ��    ��: ��
-* ע������: ��
+* 函数名称: DMA_CH_INTClr()
+* 功能说明:	DMA中断标志清除
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH、DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+* 输    出: 无
+* 注意事项: 无
 ******************************************************************************************************************************************/
 void DMA_CH_INTClr(uint32_t chn)
 {
@@ -247,11 +247,11 @@ void DMA_CH_INTClr(uint32_t chn)
 }
 
 /****************************************************************************************************************************************** 
-* ��������: DMA_CH_INTStat()
-* ����˵��:	DMA�ж�״̬��ѯ
-* ��    ��: uint32_t chn			ָ��Ҫ���õ�ͨ������Чֵ��DMA_CHW_FLASH��DMA_CHR_FLASH��DMA_CHR_ADC��DMA_CHR_SDADC��DMA_CHR_CAN
-* ��    ��: uint32_t				1 ���ݰ������    0 ���ݰ���δ���
-* ע������: ��
+* 函数名称: DMA_CH_INTStat()
+* 功能说明:	DMA中断状态查询
+* 输    入: uint32_t chn			指定要配置的通道，有效值有DMA_CHW_FLASH、DMA_CHR_FLASH、DMA_CHR_ADC、DMA_CHR_SDADC、DMA_CHR_CAN
+* 输    出: uint32_t				1 数据搬运完成    0 数据搬运未完成
+* 注意事项: 无
 ******************************************************************************************************************************************/
 uint32_t DMA_CH_INTStat(uint32_t chn)
 {

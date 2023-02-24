@@ -71,7 +71,7 @@
 #define FREERTOS_CONFIG_H
 
 
-/* ±ÜÃâĞŞ¸Ä startup_SWM341.s ÏòÁ¿±í£¬ÖØÃüÃû ISR º¯ÊıÃû */
+/* é¿å…ä¿®æ”¹ startup_SWM341.s å‘é‡è¡¨ï¼Œé‡å‘½å ISR å‡½æ•°å */
 #define xPortPendSVHandler 		PendSV_Handler
 #define xPortSysTickHandler 	SysTick_Handler
 #define vPortSVCHandler			SVC_Handler

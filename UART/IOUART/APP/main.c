@@ -22,21 +22,21 @@ int main(void)
 	
  	while(1==1)
  	{
-		IOUART_RX_RecvChars(RxBuff, 64);	//Í¨ÖªUARTÄ£¿éÒª½ÓÊÕ64¸ö×Ö·û£¬½ÓÊÕµ½µÄ×Ö·û·ÅÔÚRxBuffÖÐ
+		IOUART_RX_RecvChars(RxBuff, 64);	//é€šçŸ¥UARTæ¨¡å—è¦æŽ¥æ”¶64ä¸ªå­—ç¬¦ï¼ŒæŽ¥æ”¶åˆ°çš„å­—ç¬¦æ”¾åœ¨RxBuffä¸­
 		while((stat = IOUART_RX_State()) < IOUART_RX_BUFFULL);
 		switch(stat)
 		{
 		case IOUART_RX_BUFFULL:
 		case IOUART_RX_TIMEOUT:
 			memset(buff, 0, 65);
-			memcpy(buff, RxBuff, IOUART_RX_Count());	//½«½ÓÊÕµ½µÄÊý¾Ý¿½±´³öÀ´´¦Àí
-			IOUART_RX_Clear();							//´¦ÀíÍê½ÓÊÕÊý¾Ý±ØÐëÇåÁã×´Ì¬
+			memcpy(buff, RxBuff, IOUART_RX_Count());	//å°†æŽ¥æ”¶åˆ°çš„æ•°æ®æ‹·è´å‡ºæ¥å¤„ç†
+			IOUART_RX_Clear();							//å¤„ç†å®ŒæŽ¥æ”¶æ•°æ®å¿…é¡»æ¸…é›¶çŠ¶æ€
 			printf("IOUART Received: %s\r\n", buff);			
 			break;
 		
 		case IOUART_RX_FRAMERR:
 		case IOUART_RX_PARITYERR:
-			IOUART_RX_Clear();							//´¦ÀíÍê½ÓÊÕÊý¾Ý±ØÐëÇåÁã×´Ì¬
+			IOUART_RX_Clear();							//å¤„ç†å®ŒæŽ¥æ”¶æ•°æ®å¿…é¡»æ¸…é›¶çŠ¶æ€
 			printf("IOUART Receive Error!\r\n");
 			break;
 		}
@@ -45,12 +45,12 @@ int main(void)
 
 
 /****************************************************************************************************************************************** 
-* º¯ÊýÃû³Æ: fputc()
-* ¹¦ÄÜËµÃ÷: printf()Ê¹ÓÃ´Ëº¯ÊýÍê³ÉÊµ¼ÊµÄ´®¿Ú´òÓ¡¶¯×÷
-* Êä    Èë: int ch		Òª´òÓ¡µÄ×Ö·û
-*			FILE *f		ÎÄ¼þ¾ä±ú
-* Êä    ³ö: ÎÞ
-* ×¢ÒâÊÂÏî: ÎÞ
+* å‡½æ•°åç§°: fputc()
+* åŠŸèƒ½è¯´æ˜Ž: printf()ä½¿ç”¨æ­¤å‡½æ•°å®Œæˆå®žé™…çš„ä¸²å£æ‰“å°åŠ¨ä½œ
+* è¾“    å…¥: int ch		è¦æ‰“å°çš„å­—ç¬¦
+*			FILE *f		æ–‡ä»¶å¥æŸ„
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 int fputc(int ch, FILE *f)
 {

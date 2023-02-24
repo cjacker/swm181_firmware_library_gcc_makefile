@@ -1,8 +1,8 @@
 /****************************************************************************************************************************************** 
-* ÎÄ¼şÃû³Æ:	IOSPI_MST.c
-* ¹¦ÄÜËµÃ÷:	GPIOÒı½ÅÄ£Äâµ¥ÏßSPIÖ÷»ú
-* ×÷ÕßÓÊÏä:	
-* ×¢ÒâÊÂÏî:	
+* æ–‡ä»¶åç§°:	IOSPI_MST.c
+* åŠŸèƒ½è¯´æ˜:	GPIOå¼•è„šæ¨¡æ‹Ÿå•çº¿SPIä¸»æœº
+* ä½œè€…é‚®ç®±:	
+* æ³¨æ„äº‹é¡¹:	
 *******************************************************************************************************************************************/ 
 #include "SWM181.h"
 
@@ -15,11 +15,11 @@ static uint16_t IOSPI_Cmd_Read = 0;
 static uint32_t IOSPI_Buf_Write = 0x00;
 
 /****************************************************************************************************************************************** 
-* º¯ÊıÃû³Æ:	IOSPI_MST_Init()
-* ¹¦ÄÜËµÃ÷: IOSPIÖ÷»ú³õÊ¼»¯
-* Êä    Èë: uint32_t baud		IOSPIÖ÷»ú²¨ÌØÂÊ£¬¼´Î»´«ÊäËÙÂÊ£¬µ¥Î»bps
-* Êä    ³ö: ÎŞ
-* ×¢ÒâÊÂÏî: ÎŞ
+* å‡½æ•°åç§°:	IOSPI_MST_Init()
+* åŠŸèƒ½è¯´æ˜: IOSPIä¸»æœºåˆå§‹åŒ–
+* è¾“    å…¥: uint32_t baud		IOSPIä¸»æœºæ³¢ç‰¹ç‡ï¼Œå³ä½ä¼ è¾“é€Ÿç‡ï¼Œå•ä½bps
+* è¾“    å‡º: æ— 
+* æ³¨æ„äº‹é¡¹: æ— 
 ******************************************************************************************************************************************/
 void IOSPI_MST_Init(uint32_t freq)
 {
@@ -33,14 +33,14 @@ void IOSPI_MST_Init(uint32_t freq)
 #define SPI_SCLK_HIGH()		GPIO_SetBit(GPIOB, PIN1)
 	SPI_SCLK_LOW();
 	
-	GPIO_Init(GPIOB, PIN0, 1, 1, 0, 1);					//GPIOB.0 -> IOSPI.MOSI, ¿ªÂ©¡¢ÉÏÀ­£¬Êä³ö0xFFFFÊ±¿É¶ÁÈ¡RF ICµÄÊä³ö
+	GPIO_Init(GPIOB, PIN0, 1, 1, 0, 1);					//GPIOB.0 -> IOSPI.MOSI, å¼€æ¼ã€ä¸Šæ‹‰ï¼Œè¾“å‡º0xFFFFæ—¶å¯è¯»å–RF ICçš„è¾“å‡º
 #define SPI_MOSI_LOW()		GPIO_ClrBit(GPIOB, PIN0)	
 #define SPI_MOSI_HIGH()		GPIO_SetBit(GPIOB, PIN0)
 #define SPI_MOSI_Value()	GPIO_GetBit(GPIOB, PIN0)
 	
 	TIMR_Init(TIMR0, TIMR_MODE_TIMER, SystemCoreClock/(2 * freq), 1);
 	
-	IRQ_Connect(IRQ0_15_TIMR0, IRQ5_IRQ, 1);		//¶¨Ê±Æ÷ÖĞ¶ÏÁ´½Óµ½IRQ5ÖĞ¶ÏÏß£¬¸ßÓÅÏÈ¼¶
+	IRQ_Connect(IRQ0_15_TIMR0, IRQ5_IRQ, 1);		//å®šæ—¶å™¨ä¸­æ–­é“¾æ¥åˆ°IRQ5ä¸­æ–­çº¿ï¼Œé«˜ä¼˜å…ˆçº§
 }
 
 void IOSPI_MST_Write(uint8_t addr, uint16_t data)
@@ -77,7 +77,7 @@ void IOSPI_MST_Read(uint8_t addr)
 void IRQ5_Handler(void)
 {
 	static uint32_t bit = 24;
-	static uint32_t edge_fall = 0;	// Ê±ÖÓÏÂ½µÑØ
+	static uint32_t edge_fall = 0;	// æ—¶é’Ÿä¸‹é™æ²¿
 	
 	if(TIMR_INTStat(TIMR0))
 	{

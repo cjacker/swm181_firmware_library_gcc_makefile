@@ -5,7 +5,7 @@ int main(void)
 {	
 	SystemInit();
 	
-	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//Êä³ö£¬½ÓLED
+	GPIO_Init(GPIOA, PIN5, 1, 0, 0, 0);			//è¾“å‡ºï¼ŒæŽ¥LED
 	
 	SYS->BODCR |= (0x01 << SYS_BODCR_IE_Pos);
 	
