@@ -1,3 +1,6 @@
+// this demo code is to blink 3 LEDs of luat SWM181 devboard.
+// it is D0, B8, B9
+
 #include "SWM181.h"
 
 #include <math.h>
