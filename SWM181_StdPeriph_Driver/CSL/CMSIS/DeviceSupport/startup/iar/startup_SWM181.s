@@ -26,7 +26,7 @@
 ;    1        8k                24k                CacheÊ¹ÄÜ£¬³ÌÐò´æ´¢Æ÷240K
 ;    3        24k                8k
 
-SRAM_SWITCH      EQU    3;
+SRAM_SWITCH      EQU    0;
 
 
         MODULE  ?cstartup

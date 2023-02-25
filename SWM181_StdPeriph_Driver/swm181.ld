@@ -5,7 +5,7 @@ ENTRY(Reset_Handler)
 MEMORY
 {
 	ROM   (arx) : ORIGIN = 0x00000000,    LENGTH = 0x0001E000 /* 0x0001E000 120k    0x00006000 24K */
-    RAM   (arw) : ORIGIN = 0x20000000,    LENGTH = 0x00002000 /* 0x00004000  16k    0x00002000  8K */
+    RAM   (arw) : ORIGIN = 0x20000000,    LENGTH = 0x00004000 /* 0x00004000  16k    0x00002000  8K */
 }
 
 /* Define output sections */
