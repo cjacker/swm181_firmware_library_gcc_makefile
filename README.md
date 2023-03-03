@@ -15,7 +15,7 @@ To Program
 git clone https://github.com/Synwit-Co-Ltd/SWMProg
 python ./SWMProg.py
 ```
-- Option 2 : use JLink to program
+- Option 2 : use JLink to program and debug
 
 The flash loaderfile and JLinkDevices.xml can be found at:
 ```
